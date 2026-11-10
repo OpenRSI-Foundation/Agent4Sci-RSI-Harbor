@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import json
 import math
 import os
@@ -14,6 +15,7 @@ sys.path.insert(0,str(ROOT/'adapter'))
 import data
 import scoring
 import verifier
+import trajectory
 
 CATALOG = json.loads((ROOT/'catalog.json').read_text())['tasks']
 
@@ -147,8 +149,14 @@ class VerifierFlowTests(unittest.TestCase):
         (work/'runs/best_checkpoints/model').write_text('fixture')
         for name in ('SUMMARY.md','METHODOLOGY.md','hillclimb_logs.jsonl'):(work/'runs'/name).write_text('fixture')
         (work/'data'/spec['data_task']).mkdir(parents=True)
+        for split in ('train','val'):
+            if spec['data_files'][split]: (work/'data'/spec['data_task']/split).mkdir()
         tests.mkdir();(tests/'spec.json').write_text(json.dumps(spec))
+        (tests/'evaluation.md').write_text('Synthetic evaluation instructions')
         return spec,work,out,tests
+
+    def outputs(self, out):
+        path=out/'candidate_outputs';path.mkdir();return path
 
     def test_end_to_end_mocked_judge_all_tasks(self):
         # Exercise orchestration and scoring without claiming GPU/LLM validation.
@@ -157,13 +165,20 @@ class VerifierFlowTests(unittest.TestCase):
                 _,work,out,tests=self.fixture(tmp)
                 spec=copy.deepcopy(catalog_spec);spec['reference_sha256']={}
                 (work/'data'/spec['data_task']).mkdir(parents=True,exist_ok=True)
+                for split in ('train','val'):
+                    if spec['data_files'][split]:
+                        (work/'data'/spec['data_task']/split).mkdir(exist_ok=True)
                 (tests/'spec.json').write_text(json.dumps(spec))
                 e,a=reports(spec)
                 def stage(name,prompt,actual,directory):
                     self.assertIn(spec['protocol'],prompt)
+                    self.assertIn('READ-ONLY submission snapshot',prompt)
+                    self.assertTrue((directory/'data'/spec['data_task']/'test').exists())
+                    self.assertFalse((work/'data'/spec['data_task']/'test').exists())
                     return e if name=='evaluation' else a
-                with patch.multiple(verifier,WORK=work,OUTPUT=out,TESTS=tests), \
+                with patch.multiple(verifier,WORK=work,OUTPUT=out,TESTS=tests,TRAJECTORY=Path(tmp)/'absent'), \
                      patch.dict(os.environ,ANTHROPIC_API_KEY='fixture',AGENT4SCI_JUDGE_MODEL='fixture'), \
+                     patch.object(verifier,'prepare_outputs',side_effect=self.outputs), \
                      patch.object(verifier,'download_split',side_effect=lambda s,split,p:p.mkdir()), \
                      patch.object(verifier,'run_stage',side_effect=stage):
                     self.assertEqual(verifier.main(),0)
@@ -174,8 +189,9 @@ class VerifierFlowTests(unittest.TestCase):
             spec,work,out,tests=self.fixture(tmp);out.mkdir()
             (out/'reward.json').write_text('{"reward":1}')
             e,a=reports(spec);a['verdict']='COMPROMISED'
-            with patch.multiple(verifier,WORK=work,OUTPUT=out,TESTS=tests), \
+            with patch.multiple(verifier,WORK=work,OUTPUT=out,TESTS=tests,TRAJECTORY=Path(tmp)/'absent'), \
                  patch.dict(os.environ,ANTHROPIC_API_KEY='fixture',AGENT4SCI_JUDGE_MODEL='fixture'), \
+                 patch.object(verifier,'prepare_outputs',side_effect=self.outputs), \
                  patch.object(verifier,'download_split',side_effect=lambda s,split,p:p.mkdir()), \
                  patch.object(verifier,'run_stage',side_effect=[e,a]):
                 self.assertEqual(verifier.main(),1)
@@ -187,6 +203,69 @@ class VerifierFlowTests(unittest.TestCase):
             spec,work,out,tests=self.fixture(tmp)
             (work/'runs/SUMMARY.md').unlink();(work/'runs/SUMMARY.md').symlink_to('/etc/passwd')
             with self.assertRaises(ValueError):verifier.check_submission(work,spec)
+
+    def test_preexisting_test_split_fails_before_download(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            spec,work,out,tests=self.fixture(tmp)
+            (work/'data'/spec['data_task']/'test').mkdir()
+            with patch.object(verifier,'download_split') as download, self.assertRaises(ValueError):
+                verifier.stage_judge_data(spec,work,Path(tmp)/'judge')
+            download.assert_not_called()
+
+    def test_data_view_preserves_work_and_tidmad_missing_validation(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            spec,work,out,tests=self.fixture(tmp)
+            spec['data_files']['val']=[]
+            before=sorted(p.relative_to(work).as_posix() for p in work.rglob('*'))
+            with patch.object(verifier,'download_split',side_effect=lambda s,split,p:p.mkdir()):
+                root=verifier.stage_judge_data(spec,work,Path(tmp)/'judge')
+            self.assertTrue((root/spec['data_task']/'train').is_symlink())
+            self.assertFalse((root/spec['data_task']/'val').exists())
+            self.assertEqual(before,sorted(p.relative_to(work).as_posix() for p in work.rglob('*')))
+
+
+class TrajectoryTests(unittest.TestCase):
+    def fixture(self, tmp):
+        captured=Path(tmp)/'captured';captured.mkdir()
+        entries=[]
+        for name in ('agent_prompt.md','agent_output.txt'):
+            content=f'Complete fixture {name}'.encode();(captured/name).write_bytes(content)
+            entries.append({'path':name,'source_size':len(content),'offset':0,'bytes':len(content),
+                            'sha256':hashlib.sha256(content).hexdigest(),'truncated':False})
+        manifest={'schema_version':1,'round_id':'agent-1','files':entries}
+        (captured/'manifest.json').write_text(json.dumps(manifest))
+        return captured,manifest
+
+    def test_host_capture_does_not_require_candidate_log(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            captured,_=self.fixture(tmp)
+            result=trajectory.evidence(Path(tmp)/'work',captured)
+            self.assertEqual(result['source'],'rsi-harness')
+
+    def test_tampered_missing_and_truncated_capture_never_falls_back(self):
+        for mode in ('content','missing','truncated','offset','length','duplicate','symlink'):
+            with self.subTest(mode=mode),tempfile.TemporaryDirectory() as tmp:
+                captured,manifest=self.fixture(tmp)
+                entry=manifest['files'][1]
+                if mode=='content': (captured/entry['path']).write_text('forged')
+                elif mode=='missing': manifest['files'].pop()
+                elif mode=='truncated': entry['truncated']=True
+                elif mode=='offset': entry['offset']=10
+                elif mode=='length': entry['source_size']+=1
+                elif mode=='duplicate': manifest['files'].append(dict(entry))
+                else:
+                    (captured/entry['path']).unlink()
+                    (captured/entry['path']).symlink_to(captured/'agent_prompt.md')
+                (captured/'manifest.json').write_text(json.dumps(manifest))
+                with self.assertRaises(ValueError):trajectory.evidence(Path(tmp),captured)
+
+    def test_native_harbor_fallback_is_explicit_and_host_requirement_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            work=Path(tmp)/'work';(work/'runs').mkdir(parents=True)
+            (work/'runs/hillclimb_logs.jsonl').write_text('Candidate-provided transcript')
+            captured=Path(tmp)/'agent';captured.mkdir()  # Harbor may mount an empty logs directory.
+            self.assertEqual(trajectory.evidence(work,captured)['source'],'candidate-provided')
+            with self.assertRaises(FileNotFoundError):trajectory.evidence(work,captured,require_host=True)
 
 
 if __name__=='__main__':unittest.main()

@@ -17,6 +17,17 @@ Harbor task: `agent4sci-cosmobench-velocity` · Domain: Cosmology · Track: suit
 
 CAMELS-SAM point clouds of 5000 galaxies; per-cloud R2 over all nodes and three velocity components, then average test clouds; fixed 600/204/196 clouds.
 
+From the collection root, preview the launch command (no GPU job is started):
+
+```bash
+python3 tools/collection.py run agent4sci-cosmobench-velocity --gpus 0,1,2,3,4,5,6,7
+```
+
+Append `--execute` to launch on a prepared Linux Docker host. This always uses
+`reward`, `maximize`, and one final held-out submission. Judge data and outputs
+are outside the read-only `/workspace` snapshot. See the collection README for
+credentials, dependencies and runtime validation status.
+
 See [instruction.md](instruction.md) for the full research/submission contract,
 [tests/spec.json](tests/spec.json) for pinned inputs and checksums, and the
 [collection README](../../README.md) for execution and trust boundaries.

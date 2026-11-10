@@ -17,6 +17,17 @@ Harbor task: `agent4sci-treefinder-dead-trees` · Domain: Ecology · Track: suit
 
 Three fixed folds: fold_0 seed2025, fold_1 seed2024, fold_2 seed2023. Original random 80/10/10 splits. Dead-tree-class F1 in percent; not macro F1.
 
+From the collection root, preview the launch command (no GPU job is started):
+
+```bash
+python3 tools/collection.py run agent4sci-treefinder-dead-trees --gpus 0,1,2,3,4,5,6,7
+```
+
+Append `--execute` to launch on a prepared Linux Docker host. This always uses
+`reward`, `maximize`, and one final held-out submission. Judge data and outputs
+are outside the read-only `/workspace` snapshot. See the collection README for
+credentials, dependencies and runtime validation status.
+
 See [instruction.md](instruction.md) for the full research/submission contract,
 [tests/spec.json](tests/spec.json) for pinned inputs and checksums, and the
 [collection README](../../README.md) for execution and trust boundaries.

@@ -17,6 +17,17 @@ Harbor task: `agent4sci-massspecgym-retrieval` · Domain: Chemistry · Track: su
 
 Mass-based candidates, up to 256 candidates per spectrum; single fixed-seed run. Hit Rate@1 in percent; bootstrap confidence interval uses 20000 resamples, not training runs.
 
+From the collection root, preview the launch command (no GPU job is started):
+
+```bash
+python3 tools/collection.py run agent4sci-massspecgym-retrieval --gpus 0,1,2,3,4,5,6,7
+```
+
+Append `--execute` to launch on a prepared Linux Docker host. This always uses
+`reward`, `maximize`, and one final held-out submission. Judge data and outputs
+are outside the read-only `/workspace` snapshot. See the collection README for
+credentials, dependencies and runtime validation status.
+
 See [instruction.md](instruction.md) for the full research/submission contract,
 [tests/spec.json](tests/spec.json) for pinned inputs and checksums, and the
 [collection README](../../README.md) for execution and trust boundaries.

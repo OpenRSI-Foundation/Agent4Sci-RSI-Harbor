@@ -10,7 +10,11 @@ The upstream reference allocation is **8 H200 GPUs, 12 hours**. Work under
 preprocessing and inference improvements consistent with the scientific task.
 Read `/workspace/task.md`, `/workspace/paper/`, `/workspace/repo/` and
 `/workspace/reproduction/` first. Copy code into `runs/` to edit it; keep the
-reference code, paper and data unchanged. Install extra packages in a local venv.
+reference code, paper and data unchanged. Install extra packages in a venv under
+`/workspace/runs/` (for example `runs/.venv`); home/system changes do not reach
+the clean Judge. Loading code must accept explicit data and output paths: the
+Judge reads `/workspace` as a read-only snapshot, stages test data separately,
+and supplies a writable output directory. Do not hardcode test or output paths.
 The allocation is per task here: splitting a multi-task project changes its
 budget accounting relative to upstream's shared project run. Report that fact.
 
@@ -37,6 +41,9 @@ Create nonempty `runs/SUMMARY.md` (exact loading commands, checkpoint-to-compone
 mapping and validation selection), `runs/METHODOLOGY.md` (scientific reasoning,
 changes and evidence), and `runs/hillclimb_logs.jsonl` (the COMPLETE agent session
 transcript, including failed/reverted attempts). Do not summarize the transcript.
+RSI-Harness also supplies its frozen host trajectory at `/logs/agent` to the
+Judge; that is the primary audit record and may substitute for the copied log.
+Native Harbor requires the complete copied `hillclimb_logs.jsonl`.
 Make artifacts readable by the independent evaluator. Use `rsi-submit` **once**
 when final; in plain Harbor, finish your turn instead. Do not tune on final Judge
 feedback. The operator must enforce `--max-submissions 1` for upstream-comparable

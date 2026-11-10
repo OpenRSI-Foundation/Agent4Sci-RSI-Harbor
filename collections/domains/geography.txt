@@ -1,0 +1,2 @@
+tasks/agent4sci-geobench-pastis
+tasks/agent4sci-gtpbd-terraces
