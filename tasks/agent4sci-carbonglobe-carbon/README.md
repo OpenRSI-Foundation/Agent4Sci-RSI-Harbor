@@ -1,6 +1,9 @@
 # CarbonGlobe: carbon forecasting
 
-Harbor task: `agent4sci-carbonglobe-carbon` · Domain: Ecology · Track: suite.
+RSI task: `rsi/agent4sci-carbonglobe-carbon` · Domain: Ecology · Track: suite.
+
+Format and runtime authority: [OpenRSI-Index](https://github.com/OpenRSI-Foundation/OpenRSI-Index),
+Harbor schema 1.4 and RSI-Harness. The public Index path is `rsi-tasks/agent4sci-carbonglobe-carbon/`.
 
 | Field | Value |
 |---|---|

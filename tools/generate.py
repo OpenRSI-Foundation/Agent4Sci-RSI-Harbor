@@ -56,9 +56,8 @@ changes and evidence), and `runs/hillclimb_logs.jsonl` (the COMPLETE agent sessi
 transcript, including failed/reverted attempts). Do not summarize the transcript.
 RSI-Harness also supplies its frozen host trajectory at `/logs/agent` to the
 Judge; that is the primary audit record and may substitute for the copied log.
-Native Harbor requires the complete copied `hillclimb_logs.jsonl`.
 Make artifacts readable by the independent evaluator. Use `rsi-submit` **once**
-when final; in plain Harbor, finish your turn instead. Do not tune on final Judge
+when final, through OpenRSI-Index's `rsi-harness` runtime. Do not tune on final Judge
 feedback. The operator must enforce `--max-submissions 1` for upstream-comparable
 results. The evaluator and auditor run independently in the Judge and may reject
 unsupported loading code, incomplete protocols or incomplete trajectories.
@@ -79,13 +78,13 @@ Missing/failed evaluations produce no valid reward, never a fabricated score.
 
 [task]
 name = "rsi/{slug}"
-version = "1.0.1"
+version = "1.0.2"
 description = {json.dumps(spec['title'])}
 
 [metadata]
 author_name = "OpenRSI contributors; upstream Agent4Sci authors"
-category = "ML"
-subcategory = "Scientific discovery"
+category = "Science"
+subcategory = {json.dumps(spec['domain'])}
 tags = ["autoresearch", "agent4sci", {json.dumps(spec['domain'].lower())}]
 difficulty_explanation = "Long-horizon scientific model development with fixed data splits and seed/fold coverage."
 verification_explanation = "Upstream independent evaluation agent plus separate integrity auditor, then strict continuous reward conversion."
@@ -148,7 +147,10 @@ CMD ["sleep", "infinity"]
 '''
     readme = f'''# {spec['title']}
 
-Harbor task: `{slug}` · Domain: {spec['domain']} · Track: {spec['track']}.
+RSI task: `rsi/{slug}` · Domain: {spec['domain']} · Track: {spec['track']}.
+
+Format and runtime authority: [OpenRSI-Index](https://github.com/OpenRSI-Foundation/OpenRSI-Index),
+Harbor schema 1.4 and RSI-Harness. The public Index path is `rsi-tasks/{slug}/`.
 
 | Field | Value |
 |---|---|
@@ -211,7 +213,7 @@ def collection_files(catalog):
     rows = ['# Complete task catalog', '',
             '25 suite tasks plus the separately marked PFDelta-2000 case study. '
             'Baselines are upstream reports, not new measurements. Every task has '
-            'an independent Harbor 1.4 package, a readable name and its own fixed protocol.', '',
+            'an independent RSI task in Harbor 1.4 format, a readable name and its own fixed protocol.', '',
             'Generated from [catalog.json](catalog.json). '
             'Use [collections/](collections/) for plain-text manifests or '
             '`python3 tools/collection.py list --domain Chemistry` to filter tasks.', '',

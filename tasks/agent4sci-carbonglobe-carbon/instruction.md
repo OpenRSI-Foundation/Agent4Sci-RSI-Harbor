@@ -43,9 +43,8 @@ changes and evidence), and `runs/hillclimb_logs.jsonl` (the COMPLETE agent sessi
 transcript, including failed/reverted attempts). Do not summarize the transcript.
 RSI-Harness also supplies its frozen host trajectory at `/logs/agent` to the
 Judge; that is the primary audit record and may substitute for the copied log.
-Native Harbor requires the complete copied `hillclimb_logs.jsonl`.
 Make artifacts readable by the independent evaluator. Use `rsi-submit` **once**
-when final; in plain Harbor, finish your turn instead. Do not tune on final Judge
+when final, through OpenRSI-Index's `rsi-harness` runtime. Do not tune on final Judge
 feedback. The operator must enforce `--max-submissions 1` for upstream-comparable
 results. The evaluator and auditor run independently in the Judge and may reject
 unsupported loading code, incomplete protocols or incomplete trajectories.

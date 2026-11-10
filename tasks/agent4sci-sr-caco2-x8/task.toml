@@ -2,13 +2,13 @@ schema_version = "1.4"
 
 [task]
 name = "rsi/agent4sci-sr-caco2-x8"
-version = "1.0.1"
+version = "1.0.2"
 description = "SR-CACO-2: microscopy super-resolution"
 
 [metadata]
 author_name = "OpenRSI contributors; upstream Agent4Sci authors"
-category = "ML"
-subcategory = "Scientific discovery"
+category = "Science"
+subcategory = "Biology"
 tags = ["autoresearch", "agent4sci", "biology"]
 difficulty_explanation = "Long-horizon scientific model development with fixed data splits and seed/fold coverage."
 verification_explanation = "Upstream independent evaluation agent plus separate integrity auditor, then strict continuous reward conversion."

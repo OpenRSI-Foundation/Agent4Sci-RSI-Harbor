@@ -1,6 +1,9 @@
 # SR-CACO-2: microscopy super-resolution
 
-Harbor task: `agent4sci-sr-caco2-x8` · Domain: Biology · Track: suite.
+RSI task: `rsi/agent4sci-sr-caco2-x8` · Domain: Biology · Track: suite.
+
+Format and runtime authority: [OpenRSI-Index](https://github.com/OpenRSI-Foundation/OpenRSI-Index),
+Harbor schema 1.4 and RSI-Harness. The public Index path is `rsi-tasks/agent4sci-sr-caco2-x8/`.
 
 | Field | Value |
 |---|---|

@@ -57,3 +57,19 @@ host-captured trajectory and verifies its manifest, sizes and SHA-256 digests.
 The container test is not a full RSI Work/snapshot/Judge launch, a scientific
 image build, a GPU baseline reproduction, a real model evaluation/audit, or a
 native Harbor run. Those checks remain pending as recorded above.
+
+## OpenRSI-Index publication, 2026-11-10
+
+Version 1.0.2 explicitly follows OpenRSI-Index's `rsi/<task>` naming, Harbor 1.4
+task layout, `Science` category/domain metadata and `rsi-harness` execution entry
+point. `tools/publish_index.py` exports complete packages from a committed source
+revision into `OpenRSI-Index/rsi-tasks/agent4sci-*/`, with local maintainer guides,
+licenses and per-file provenance receipts. The collection index lives at
+`rsi-tasks/AGENT4SCI.md`, using the Index's existing publication layout and policy.
+
+The source's 29 CPU tests cover the exporter as well as the adapter and launcher;
+all 26 generated tasks compile. The Index copy is checked independently using
+its actual `checks/check_publication.py --compile` and publication CI. Export
+checks verify source hashes, published hashes, file modes and complete coverage;
+they reject destination drift and unrelated tasks. This publication changes no
+scientific metric, data split, reward formula or final-submission cap.

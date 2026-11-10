@@ -1,5 +1,11 @@
 # Agent4Sci — RSI Harbor Task Collection
 
+**Canonical RSI task entry point:** [Agent4Sci in OpenRSI-Index](https://github.com/OpenRSI-Foundation/OpenRSI-Index/blob/main/rsi-tasks/AGENT4SCI.md).
+The Index contains complete packages at `rsi-tasks/agent4sci-*/`, with source
+commits and per-file publication hashes. This repository maintains the upstream
+imports, task generator and adapter regression tests. OpenRSI-Index's task
+format, publication checks and RSI-Harness define the integration contract.
+
 将 [Agent4Sci](https://github.com/maszhongming/agent4sci) 全集转换为可由
 RSI-Harness 加载的 Harbor 1.4 task：**25 个正式任务 + PFDelta-2000 案例，共 26 个**。
 每个任务都有独立且可读的名称、研究说明、固定环境、评分入口和来源记录。
@@ -179,9 +185,9 @@ recovery. In particular, Docker instructions are **not** a VISION/Pyxis launcher
 Changing hardware or budgets creates a distinct experimental setting and must be
 reported. No scientific runs or GPU allocations were launched for this release.
 
-For direct Harbor execution, use Harbor **0.21.0** and its native `run -p TASK`
-entry point, providing the same verifier variables. This release validates the
-Harbor task model and RSI compiler; it does not claim a live native Harbor run.
+These are **RSI tasks using Harbor 1.4 syntax**. Run them with OpenRSI-Index's
+`rsi-harness`, following its [Quick Start](https://github.com/OpenRSI-Foundation/OpenRSI-Index/blob/main/assets/docs/quick-start.md).
+Plain `harbor run` is not the supported entry point for this collection.
 
 ## Data and trust boundaries
 
@@ -244,6 +250,19 @@ make each task portable. To re-import a newer upstream revision, inspect the
 images on a suitable preparation host with `tools/inspect_images.py`, obtain the
 Hub metadata with `hf datasets info MingZhong/agent4sci --format json`, and use
 `tools/import_catalog.py`; review all changed protocols/baselines before regenerating.
+
+To refresh the complete public packages in an OpenRSI-Index checkout from an
+immutable committed collection revision:
+
+```bash
+python3 tools/publish_index.py --index /path/to/OpenRSI-Index --revision COMMIT_SHA
+python3 tools/publish_index.py --index /path/to/OpenRSI-Index --revision COMMIT_SHA --check
+```
+
+This exports all 26 packages, their licenses, `publication.json` receipts and
+the grouped `rsi-tasks/AGENT4SCI.md` index. It does not execute task code, touch
+the Index Harness or alter its publication policy. Commit the resulting Index
+files and run its own `checks/check_publication.py --compile` before publication.
 
 ## Attribution
 

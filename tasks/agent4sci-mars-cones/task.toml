@@ -2,13 +2,13 @@ schema_version = "1.4"
 
 [task]
 name = "rsi/agent4sci-mars-cones"
-version = "1.0.1"
+version = "1.0.2"
 description = "Mars-Bench: cone detection"
 
 [metadata]
 author_name = "OpenRSI contributors; upstream Agent4Sci authors"
-category = "ML"
-subcategory = "Scientific discovery"
+category = "Science"
+subcategory = "Astronomy"
 tags = ["autoresearch", "agent4sci", "astronomy"]
 difficulty_explanation = "Long-horizon scientific model development with fixed data splits and seed/fold coverage."
 verification_explanation = "Upstream independent evaluation agent plus separate integrity auditor, then strict continuous reward conversion."

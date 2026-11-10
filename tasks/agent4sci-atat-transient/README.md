@@ -1,6 +1,9 @@
 # ATAT: transient classification
 
-Harbor task: `agent4sci-atat-transient` · Domain: Astronomy · Track: suite.
+RSI task: `rsi/agent4sci-atat-transient` · Domain: Astronomy · Track: suite.
+
+Format and runtime authority: [OpenRSI-Index](https://github.com/OpenRSI-Foundation/OpenRSI-Index),
+Harbor schema 1.4 and RSI-Harness. The public Index path is `rsi-tasks/agent4sci-atat-transient/`.
 
 | Field | Value |
 |---|---|

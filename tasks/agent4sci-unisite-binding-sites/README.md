@@ -1,6 +1,9 @@
 # UniSite: ligand binding-site detection
 
-Harbor task: `agent4sci-unisite-binding-sites` · Domain: Bioengineering · Track: suite.
+RSI task: `rsi/agent4sci-unisite-binding-sites` · Domain: Bioengineering · Track: suite.
+
+Format and runtime authority: [OpenRSI-Index](https://github.com/OpenRSI-Foundation/OpenRSI-Index),
+Harbor schema 1.4 and RSI-Harness. The public Index path is `rsi-tasks/agent4sci-unisite-binding-sites/`.
 
 | Field | Value |
 |---|---|

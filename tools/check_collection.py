@@ -29,6 +29,8 @@ def main():
         folder = ROOT / 'tasks' / spec['id']
         config = tomllib.loads((folder / 'task.toml').read_text())
         assert config['schema_version'] == '1.4'
+        assert config['metadata']['category'] == 'Science'
+        assert config['metadata']['subcategory'] == spec['domain']
         assert re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*',spec['id'])
         assert '@sha256:' in spec['image'] and ':latest' not in spec['image']
         assert re.fullmatch('[0-9a-f]{40}',spec['dataset']['revision'])

@@ -1,6 +1,9 @@
 # CosmoBench: merger-node classification
 
-Harbor task: `agent4sci-cosmobench-merger-nodes` · Domain: Cosmology · Track: suite.
+RSI task: `rsi/agent4sci-cosmobench-merger-nodes` · Domain: Cosmology · Track: suite.
+
+Format and runtime authority: [OpenRSI-Index](https://github.com/OpenRSI-Foundation/OpenRSI-Index),
+Harbor schema 1.4 and RSI-Harness. The public Index path is `rsi-tasks/agent4sci-cosmobench-merger-nodes/`.
 
 | Field | Value |
 |---|---|

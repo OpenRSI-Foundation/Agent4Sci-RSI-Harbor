@@ -1,6 +1,6 @@
 # Complete task catalog
 
-25 suite tasks plus the separately marked PFDelta-2000 case study. Baselines are upstream reports, not new measurements. Every task has an independent Harbor 1.4 package, a readable name and its own fixed protocol.
+25 suite tasks plus the separately marked PFDelta-2000 case study. Baselines are upstream reports, not new measurements. Every task has an independent RSI task in Harbor 1.4 format, a readable name and its own fixed protocol.
 
 Generated from [catalog.json](catalog.json). Use [collections/](collections/) for plain-text manifests or `python3 tools/collection.py list --domain Chemistry` to filter tasks.
 

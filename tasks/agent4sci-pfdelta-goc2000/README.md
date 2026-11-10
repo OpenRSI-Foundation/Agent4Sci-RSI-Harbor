@@ -1,6 +1,9 @@
 # PFDelta-2000: latency-constrained power flow
 
-Harbor task: `agent4sci-pfdelta-goc2000` · Domain: Physics · Track: case-study.
+RSI task: `rsi/agent4sci-pfdelta-goc2000` · Domain: Physics · Track: case-study.
+
+Format and runtime authority: [OpenRSI-Index](https://github.com/OpenRSI-Foundation/OpenRSI-Index),
+Harbor schema 1.4 and RSI-Harness. The public Index path is `rsi-tasks/agent4sci-pfdelta-goc2000/`.
 
 | Field | Value |
 |---|---|
