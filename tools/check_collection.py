@@ -24,11 +24,12 @@ def main():
     data = json.loads((ROOT / 'upstream/dataset-files.json').read_text())
     pairs = {'/'.join(name.split('/')[:2]) for name in data['files'] if '/' in name}
     assert pairs == {f'{t["project"]}/{t["data_task"]}' for t in tasks}
-    assert {p.name for p in (ROOT / 'tasks').iterdir()} == {t['id'] for t in tasks}
+    assert {p.name for p in (ROOT / 'rsi-tasks').iterdir()} == {t['id'] for t in tasks}
     for spec in tasks:
-        folder = ROOT / 'tasks' / spec['id']
+        folder = ROOT / 'rsi-tasks' / spec['id']
         config = tomllib.loads((folder / 'task.toml').read_text())
         assert config['schema_version'] == '1.4'
+        assert config['task']['name'] == f'rsi/{spec["id"]}'
         assert config['metadata']['category'] == 'Science'
         assert config['metadata']['subcategory'] == spec['domain']
         assert re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*',spec['id'])
@@ -48,6 +49,9 @@ def main():
         for file in folder.rglob('*.py'):
             ast.parse(file.read_text(),filename=str(file))
         assert not any(p.name in {'doc','docs'} for p in folder.rglob('*'))
+        assert not any(p.is_symlink() for p in folder.rglob('*'))
+        for name in ('LICENSE', 'NOTICE'):
+            assert (folder / name).read_bytes() == (ROOT / name).read_bytes()
     subprocess.run([sys.executable,str(ROOT / 'tools/generate.py'),'--check'],check=True)
     print('Coverage: 25 suite tasks + 1 case study; all 21 registered images, 11 domains')
     if args.require_harness:
@@ -55,7 +59,7 @@ def main():
         from rsi_harness.models import CompileOptions
         compiler = HarborTaskCompiler()
         for spec in tasks:
-            task = compiler.compile(ROOT/'tasks'/spec['id'],CompileOptions(primary_reward='reward',max_submissions=1))
+            task = compiler.compile(ROOT/'rsi-tasks'/spec['id'],CompileOptions(primary_reward='reward',max_submissions=1))
             assert task.verifier.primary_reward == 'reward'
             assert task.gpu_requirement.count == 8
             assert task.agent.user == 'agent'

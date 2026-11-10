@@ -1,4 +1,4 @@
-name: Validate Harbor collection
+name: Validate RSI task collection
 on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
@@ -13,7 +13,7 @@ jobs:
           python-version: '3.12'
       - name: Install pinned RSI-Harness (includes Harbor 0.21.0)
         run: pip install 'git+https://github.com/OpenRSI-Foundation/OpenRSI-Index.git@8d170deed4591fc7e4306f2d86ff4d9bcffd1288#subdirectory=RSI-Harness'
-      - name: Compile every Harbor task and verify exact upstream coverage
+      - name: Compile every RSI task and verify exact upstream coverage
         run: python tools/check_collection.py --require-harness
       - name: Test verifier orchestration and failure handling (mocked model/data)
         run: python -m unittest discover -s checks -v

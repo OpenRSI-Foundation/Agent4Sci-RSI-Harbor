@@ -1,4 +1,4 @@
-"""Generate standalone Harbor 1.4 tasks; --check detects stale generated files."""
+"""Generate standalone RSI tasks in Harbor 1.4 format; --check detects drift."""
 import argparse
 import json
 import sys
@@ -149,8 +149,10 @@ CMD ["sleep", "infinity"]
 
 RSI task: `rsi/{slug}` · Domain: {spec['domain']} · Track: {spec['track']}.
 
-Format and runtime authority: [OpenRSI-Index](https://github.com/OpenRSI-Foundation/OpenRSI-Index),
-Harbor schema 1.4 and RSI-Harness. The public Index path is `rsi-tasks/{slug}/`.
+This standalone package lives in **Agent4Sci-RSI-Harbor**, at
+`rsi-tasks/{slug}/`. It follows the
+[OpenRSI-Index task format](https://github.com/OpenRSI-Foundation/OpenRSI-Index/blob/8d170deed4591fc7e4306f2d86ff4d9bcffd1288/RSI-Harness/docs/harbor-task-authoring/task-toml.md)
+and runs with RSI-Harness. See the [complete collection](../../TASKS.md).
 
 | Field | Value |
 |---|---|
@@ -161,6 +163,8 @@ Harbor schema 1.4 and RSI-Harness. The public Index path is `rsi-tasks/{slug}/`.
 | Required components | {', '.join(spec['components'])} |
 | Aggregation | {spec['aggregation']} |
 | Work budget | 12 hours, 8 H200 GPUs |
+| Judge allocation | 8 GPUs; may time-share the Work pool |
+| CPU / RAM / planned disk | 32 cores / 512 GiB / 1 TiB |
 | RSI primary reward | `reward`, maximize |
 | Final hidden-test submissions | 1 |
 | Validation | Packaged; real image build, GPU baseline, evaluator and auditor not yet run |
@@ -178,6 +182,15 @@ Append `--execute` to launch on a prepared Linux Docker host. This always uses
 are outside the read-only `/workspace` snapshot. See the collection README for
 credentials, dependencies and runtime validation status.
 
+After installing RSI-Harness and configuring agent/verifier authentication as
+described in the collection README, the direct command from this repository root is:
+
+```bash
+sudo -E "$(command -v rsi-harness)" run "$PWD/rsi-tasks/{slug}" \\
+  --agent codex --agent-auth local --gpus 0,1,2,3,4,5,6,7 \\
+  --primary-reward reward --score-direction maximize --max-submissions 1
+```
+
 See [instruction.md](instruction.md) for the full research/submission contract,
 [tests/spec.json](tests/spec.json) for pinned inputs and checksums, and the
 [collection README](../../README.md) for execution and trust boundaries.
@@ -188,7 +201,9 @@ Source: [Agent4Sci at {spec['upstream_revision'][:12]}](https://github.com/maszh
 Image: `{spec['image']}`.
 Dataset: `MingZhong/agent4sci@{spec['dataset']['revision']}`.
 '''
-    payload = {'task.toml':config.encode(), 'instruction.md':(instruction.rstrip()+'\n').encode(),
+    payload = {'LICENSE': (ROOT / 'LICENSE').read_bytes(),
+               'NOTICE': (ROOT / 'NOTICE').read_bytes(),
+               'task.toml':config.encode(), 'instruction.md':(instruction.rstrip()+'\n').encode(),
                'README.md':readme.encode(), 'environment/Dockerfile':dockerfile.encode(),
                'environment/instruction.md':(instruction.rstrip()+'\n').encode(),
                'tests/test.sh':b'#!/bin/bash\nset -euo pipefail\ncd /workspace\nexec /usr/bin/python3 -I /tests/verifier.py\n',
@@ -208,12 +223,14 @@ def collection_files(catalog):
     domains = sorted({t['domain'] for t in tasks})
     for domain in domains:
         groups[f'domains/{domain.lower()}'] = [t for t in tasks if t['domain'] == domain]
-    payload = {f'collections/{key}.txt': ('\n'.join(f'tasks/{t["id"]}' for t in group) + '\n').encode()
+    payload = {f'collections/{key}.txt': ('\n'.join(f'rsi-tasks/{t["id"]}' for t in group) + '\n').encode()
                for key, group in groups.items()}
-    rows = ['# Complete task catalog', '',
+    rows = ['# Agent4Sci RSI task catalog', '',
             '25 suite tasks plus the separately marked PFDelta-2000 case study. '
             'Baselines are upstream reports, not new measurements. Every task has '
-            'an independent RSI task in Harbor 1.4 format, a readable name and its own fixed protocol.', '',
+            'an independent RSI task in Harbor 1.4 format, a readable name and its own fixed protocol. '
+            'All packages live in this repository under `rsi-tasks/` and run with '
+            'OpenRSI-Index\'s `rsi-harness`.', '',
             'Generated from [catalog.json](catalog.json). '
             'Use [collections/](collections/) for plain-text manifests or '
             '`python3 tools/collection.py list --domain Chemistry` to filter tasks.', '',
@@ -232,7 +249,7 @@ def collection_files(catalog):
             metric = t['metric']
             case = ' **[case study]**' if t['track'] == 'case-study' else ''
             paper = t['baseline']['paper'] if t['baseline']['paper'] is not None else '—'
-            rows.append(f'| [{t["title"]}{case}](tasks/{t["id"]}/) · `{t["id"]}` | '
+            rows.append(f'| [{t["title"]}{case}](rsi-tasks/{t["id"]}/) · `{t["id"]}` | '
                         f'`{t["project"]}/{t["data_task"]}` | {metric["name"]} / {metric["unit"]} | '
                         f'{metric["direction"]} | {paper} | {t["baseline"]["reproduction"]} |')
     payload['TASKS.md'] = ('\n'.join(rows) + '\n').encode()
@@ -248,7 +265,7 @@ def main():
     payload = collection_files(catalog)
     for spec in catalog['tasks']:
         for name, contents in files(spec).items():
-            payload[f'tasks/{spec["id"]}/{name}'] = contents
+            payload[f'rsi-tasks/{spec["id"]}/{name}'] = contents
     for name, contents in payload.items():
         path = ROOT / name
         if args.check:
@@ -260,7 +277,7 @@ def main():
             path.chmod(0o755 if name.endswith('.sh') else 0o644)
     if stale:
         raise SystemExit('Stale generated files:\n'+'\n'.join(stale))
-    print(f'{"Checked" if args.check else "Generated"} {len(catalog["tasks"])} standalone Harbor tasks')
+    print(f'{"Checked" if args.check else "Generated"} {len(catalog["tasks"])} standalone RSI tasks')
 
 
 if __name__ == '__main__':

@@ -1,20 +1,26 @@
-# Agent4Sci — RSI Harbor Task Collection
+# Agent4Sci — RSI Task Collection
 
-**Canonical RSI task entry point:** [Agent4Sci in OpenRSI-Index](https://github.com/OpenRSI-Foundation/OpenRSI-Index/blob/main/rsi-tasks/AGENT4SCI.md).
-The Index contains complete packages at `rsi-tasks/agent4sci-*/`, with source
-commits and per-file publication hashes. This repository maintains the upstream
-imports, task generator and adapter regression tests. OpenRSI-Index's task
-format, publication checks and RSI-Harness define the integration contract.
+**Task repository:** [OpenRSI-Foundation/Agent4Sci-RSI-Harbor](https://github.com/OpenRSI-Foundation/Agent4Sci-RSI-Harbor).
+All 26 complete task packages live here in **[rsi-tasks/](rsi-tasks/)**;
+**[TASKS.md](TASKS.md)** lists their names, domains, metrics and baselines.
 
 将 [Agent4Sci](https://github.com/maszhongming/agent4sci) 全集转换为可由
 RSI-Harness 加载的 Harbor 1.4 task：**25 个正式任务 + PFDelta-2000 案例，共 26 个**。
 每个任务都有独立且可读的名称、研究说明、固定环境、评分入口和来源记录。
+合集保存在本仓库，按 OpenRSI-Index 的 RSI task 规范整理，并使用它的
+RSI-Harness 运行。OpenRSI-Index 提供格式和运行器，本仓库负责存放、索引及维护任务。
 
 This repository packages every Agent4Sci scientific task for
 [RSI-Harness](https://github.com/OpenRSI-Foundation/OpenRSI-Index/tree/main/RSI-Harness)
-and Harbor. It covers all **21 registered project images**, including the case
+using Harbor 1.4 syntax. It covers all **21 registered project images**, including the case
 study, across **11 scientific domains**. CheMixHub (3), CosmoBench (3), and
 Mars-Bench (2) are split into individual tasks.
+
+The format reference is the Index's
+[task.toml specification](https://github.com/OpenRSI-Foundation/OpenRSI-Index/blob/8d170deed4591fc7e4306f2d86ff4d9bcffd1288/RSI-Harness/docs/harbor-task-authoring/task-toml.md)
+at revision `8d170deed4591fc7e4306f2d86ff4d9bcffd1288`, which is also pinned in CI.
+Each package has a `rsi/agent4sci-*` task name, `Science` category, domain
+subcategory, complete Work/Judge files and an explicit research/reward contract.
 
 **Release status: task packaging and CPU validation.** All 26 tasks compile with
 the actual Harbor/RSI-Harness models and pass adapter tests. Full image builds,
@@ -51,8 +57,10 @@ Python 3.10+ and do not download data or allocate GPUs.
 Each directory is standalone (no symlink or import to a neighboring task):
 
 ```text
-tasks/agent4sci-pfdelta-ieee118/
+rsi-tasks/agent4sci-pfdelta-ieee118/
 ├── README.md
+├── LICENSE
+├── NOTICE
 ├── instruction.md
 ├── task.toml                  # Harbor schema 1.4
 ├── environment/
@@ -165,6 +173,15 @@ python3 tools/collection.py run pfdelta-ieee118 \
   --gpus 0,1,2,3,4,5,6,7 --agent codex --execute
 ```
 
+Run the launcher from a host shell with the permissions required by RSI-Harness.
+The equivalent direct command follows the Index Quick Start's elevated launch:
+
+```bash
+sudo -E "$(command -v rsi-harness)" run "$PWD/rsi-tasks/agent4sci-pfdelta-ieee118" \
+  --agent codex --agent-auth local --gpus 0,1,2,3,4,5,6,7 \
+  --primary-reward reward --score-direction maximize --max-submissions 1
+```
+
 The launcher fixes `--primary-reward reward --score-direction maximize
 --max-submissions 1`, validates the GPU pool, and checks verifier credentials
 before execution. It supports `--model`, `--logs-root` and `--data-root`; credentials
@@ -251,18 +268,11 @@ images on a suitable preparation host with `tools/inspect_images.py`, obtain the
 Hub metadata with `hf datasets info MingZhong/agent4sci --format json`, and use
 `tools/import_catalog.py`; review all changed protocols/baselines before regenerating.
 
-To refresh the complete public packages in an OpenRSI-Index checkout from an
-immutable committed collection revision:
-
-```bash
-python3 tools/publish_index.py --index /path/to/OpenRSI-Index --revision COMMIT_SHA
-python3 tools/publish_index.py --index /path/to/OpenRSI-Index --revision COMMIT_SHA --check
-```
-
-This exports all 26 packages, their licenses, `publication.json` receipts and
-the grouped `rsi-tasks/AGENT4SCI.md` index. It does not execute task code, touch
-the Index Harness or alter its publication policy. Commit the resulting Index
-files and run its own `checks/check_publication.py --compile` before publication.
+The generator writes all task packages directly to this repository's
+`rsi-tasks/`, including individual README files, LICENSE and NOTICE. It updates
+`TASKS.md` and the suite/domain manifests in the same pass. The compiler check
+loads these local packages using the pinned OpenRSI-Index RSI-Harness; an Index
+checkout is not needed to browse or maintain the collection.
 
 ## Attribution
 
