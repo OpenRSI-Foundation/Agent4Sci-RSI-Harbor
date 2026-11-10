@@ -1,0 +1,17 @@
+Agent4Sci-RSI-Harbor
+Copyright 2026 OpenRSI contributors (adapter code and task packaging).
+
+This collection adapts maszhongming/agent4sci, Apache License 2.0:
+https://github.com/maszhongming/agent4sci
+Pinned source commit: 74b0e8c4dc55610072bed4326b6bfac24dc77377
+Upstream authors: Ming Zhong, Stacy Li, Nicholas Carlini, Matthew Jagielski.
+
+Files under upstream/projects/ are task/evaluation/instruction metadata (normalized newlines and whitespace)
+from the publicly published Agent4Sci container images identified in
+upstream/images.lock.json. Generated instructions embed the upstream task brief.
+Modifications: separate project subtasks into Harbor tasks; pin images/dataset;
+build-time train/val staging; separate evaluator/auditor; structured score adapter.
+
+Underlying benchmark code, pretrained models, papers and datasets retain their
+own licenses. They are referenced/downloaded from the original artifacts, not
+relicensed by this repository. Review their terms before use or redistribution.

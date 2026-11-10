@@ -1,0 +1,101 @@
+{
+  "id": "agent4sci-cosmobench-tree-regression",
+  "title": "CosmoBench: sigma-8 regression",
+  "project": "CosmoBench",
+  "data_task": "tree_regression",
+  "domain": "Cosmology",
+  "track": "suite",
+  "image": "ghcr.io/maszhongming/agent4sci-cosmobench@sha256:000018bd03db0919ee3e95ff98d6d3e112cdc092d13fc253a7ec1e34ff4a058d",
+  "upstream_revision": "74b0e8c4dc55610072bed4326b6bfac24dc77377",
+  "dataset": {
+    "repo": "MingZhong/agent4sci",
+    "revision": "96befc0fb951a312b224af2a33767649d9069a55"
+  },
+  "data_files": {
+    "train": [
+      "CosmoBench/tree_regression/train/CS_tree_train.pt"
+    ],
+    "val": [
+      "CosmoBench/tree_regression/val/CS_tree_val.pt"
+    ],
+    "test": [
+      "CosmoBench/tree_regression/test/CS_tree_test.pt"
+    ]
+  },
+  "metric": {
+    "name": "r2_sigma8",
+    "unit": "fraction",
+    "direction": "maximize",
+    "range": [
+      null,
+      1
+    ]
+  },
+  "baseline": {
+    "paper": 0.82,
+    "reproduction": 0.808,
+    "source": "digest-pinned upstream image /opt/project/task.md",
+    "newly_reproduced": false
+  },
+  "components": [
+    "single_run"
+  ],
+  "aggregation": "mean",
+  "protocol": "CS-Trees directed merger trees; optimize R2(sigma_8), not saturated R2(Omega_m). Fixed 600/204/196 cosmological configurations, 25 trees per configuration. Paper uncertainty is bootstrap, not seed averaging.",
+  "reference_sha256": {
+    "repo/README.md": "7b13ce9d4d64e6328a28cead256041821a854a15099a4846d55d2b454be2b346",
+    "repo/data_scripts/prune_tree_h5parallel.py": "b477cbe188c4bdb57a8c92a4eb5b4988990b4b8567ca79455d58567168baaceb",
+    "repo/data_scripts/prune_tree_h5parallel.sh": "ab0b27e824058ec59b2587f9f87fc0fc038a9e705beb30705ac3e408931476f5",
+    "repo/data_scripts/prune_trim_tree_dataset.py": "1fef510a68760ade6ed3df959feec3a4d848677644bed3ff0c5ef808d8609df7",
+    "repo/data_scripts/prune_trim_tree_dataset.sh": "4b747ac5887c8a76397b222ec34835b94c5acb27c532738a51ff8f4dc1a4df42",
+    "repo/data_scripts/tree_h5parallel.py": "43a0372ca869bfccd1beb818c271cbce0abf9d0906b33b21725bf4e30d0b0af7",
+    "repo/data_scripts/tree_h5parallel.sh": "a7d3c3ac89853a8d301620623fbb8bc64da516a92fc493afd32ddc153f3b1c83",
+    "repo/models/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "repo/models/cloud_param/2PCF.py": "5031d57b0fdf9f4c394eaee5ad94472100ae4ea72c077a7b42ff1ccf4f12135c",
+    "repo/models/cloud_param/README.md": "43c5cfca681536a239cfaf528b63bce608ded5a1a30c50edd14194c05ce2cea1",
+    "repo/models/cloud_param/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "repo/models/cloud_param/simple_param.py": "25be6f8832bf5498631df13b8a201552c107c85f7692f73c750de6540ed30ecd",
+    "repo/models/cloud_velocity/README.md": "97da732114d5910914ab3fd9248de864982d46b881a49dfc5f0fb3350e2edcfd",
+    "repo/models/cloud_velocity/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "repo/models/cloud_velocity/fourier_velocity.py": "0bb229418ea3a090bad22ed7fde58b9af2d35bf47738ef7fafc6540dd9d928ef",
+    "repo/models/cloud_velocity/linear_theory.py": "d35e9e5de9ce9722a2fd5f46ba44c169cad74e5a6d30b4a75853158fac2b5228",
+    "repo/models/cloud_velocity/model_velocity.py": "277537845292ddbacec8b304e8ef41e16fd1c663ea84dcdeec6a5cbafbb26d22",
+    "repo/models/cloud_velocity/simple_velocity.py": "7c437a09a333dd9442ed57a830a095f9af163fda856200aaa70690717aa9537f",
+    "repo/models/model.py": "5b91805d0671a39441ed34f145291c5112b3c66c4a5b384e0fb2cf11749e8868",
+    "repo/models/tree_param/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "repo/models/tree_param/model_tree.py": "defd10d75a18266ac1c6d83ffab359282fba612a9579f94a689857b4235c9490",
+    "repo/models/tree_recon/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "repo/models/tree_recon/model_infilling.py": "1b2563a0a8835df11256852f1526f1ae17ed4951e2f46b877523e67f44651761",
+    "repo/requirements.txt": "c43293abbeb57dfe47445081ba42c3170fd77dd788de39056425aafd7cac366b",
+    "repo/train_tree_infilling.py": "fecda5327d47456d416af6c9b6069884b0ab96252db59296ac07b7be06a9b5e7",
+    "repo/train_tree_regression.py": "926dc8ef8924fda6df79fb72dbbb4a80d3b1fb4f21fe836662d21a30b60d4351",
+    "repo/train_velocity.py": "992da0dda7e892e02d37c115c611b74e52ff8b6dd381d9a5945dea6130e95fc4",
+    "repo/utils/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "repo/utils/data_util.py": "a01b90faf2bcf4f0d2b9ad5b43e9e5b44bef4deb8aa5e82b2eb6339219fbdb8a",
+    "repo/utils/get_redshift_pos.py": "6878682adbfa8557a2807d31a112ad2f0acc1128d5866c660fe454c9bc850cd3",
+    "repo/utils/graph_util.py": "99502c4b5ba2d98d32e04c9f23037921728094fa04a1b3fe59aa1334c81748bb",
+    "repo/utils/infilling_util.py": "2b31c9f816582ac5722fef7acf5175c1f82d779ccf5fb5a53d59cd5dfd44bb30",
+    "repo/utils/tree_util.py": "c5de0bf7fbe45bcd16d8f82f010d7ce2c17aba6474490b067eef344dbce8edd2",
+    "reproduction/CHANGES.md": "8d19c5d3d50fde3961f499f76227293bd890ccb4f360da5528d38ac97c6c4b3f",
+    "reproduction/repo/eval_knn_infilling.py": "eefe1b5cba19b7d2d897381927544715abbbe8a221c1ed5dd17f835b55543ba8",
+    "reproduction/repo/models/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reproduction/repo/models/cloud_velocity/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reproduction/repo/models/cloud_velocity/model_velocity.py": "277537845292ddbacec8b304e8ef41e16fd1c663ea84dcdeec6a5cbafbb26d22",
+    "reproduction/repo/models/tree_param/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reproduction/repo/models/tree_param/model_tree.py": "defd10d75a18266ac1c6d83ffab359282fba612a9579f94a689857b4235c9490",
+    "reproduction/repo/models/tree_recon/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reproduction/repo/models/tree_recon/model_infilling.py": "1b2563a0a8835df11256852f1526f1ae17ed4951e2f46b877523e67f44651761",
+    "reproduction/repo/requirements.txt": "c43293abbeb57dfe47445081ba42c3170fd77dd788de39056425aafd7cac366b",
+    "reproduction/repo/train_tree_infilling.py": "ae47cfcba5cf6118f14514766a2843c47ab93ea778b479752e50de74616b15c7",
+    "reproduction/repo/train_tree_regression.py": "fc916f5eebfcae75256683f345949c0e08fd1051fb8bbe1d5108a6b7e8e0a5fb",
+    "reproduction/repo/train_velocity.py": "b2c19ea9c41a8f67284845ab4940ab80b9efc344eee95ccc763c43328651328d",
+    "reproduction/repo/utils/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reproduction/repo/utils/infilling_util.py": "6221b2124c3e4d87c8f5d0ef79989ef8b0aed6d38b1c1e4322c17fad5dc7a33f",
+    "reproduction/repo/utils/tree_util.py": "5e0523c5fa66f47834f92b92baf9727b2cddc1171ac7951e3b08fb48f06fd2d1",
+    "reproduction/report.json": "fc1a5e224335c5608d3c217844bb7d8974328037c507d5d47c41f1d17cb31fb4",
+    "task.md": "ef22bd6a021405c9408178522fa53567fd3e8139be00a4b91fd5f29ecec4bb98"
+  },
+  "judge_cli_version": "2.1.322",
+  "judge_stage_timeout_sec": 21600,
+  "validation_status": "packaged; GPU baseline and real evaluator not yet run"
+}

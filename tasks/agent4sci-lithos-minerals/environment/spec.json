@@ -1,0 +1,73 @@
+{
+  "id": "agent4sci-lithos-minerals",
+  "title": "LITHOS: mineral classification",
+  "project": "LITHOS",
+  "data_task": "mineral_classification",
+  "domain": "Geology",
+  "track": "suite",
+  "image": "ghcr.io/maszhongming/agent4sci-lithos@sha256:3710a8a165956feb1a9ab3202e4406d0f4490553171bff0842138c91fb2dc07b",
+  "upstream_revision": "74b0e8c4dc55610072bed4326b6bfac24dc77377",
+  "dataset": {
+    "repo": "MingZhong/agent4sci",
+    "revision": "96befc0fb951a312b224af2a33767649d9069a55"
+  },
+  "data_files": {
+    "train": [
+      "LITHOS/mineral_classification/train/data.h5"
+    ],
+    "val": [
+      "LITHOS/mineral_classification/val/data.h5"
+    ],
+    "test": [
+      "LITHOS/mineral_classification/test/data.h5"
+    ]
+  },
+  "metric": {
+    "name": "macro_f1",
+    "unit": "fraction",
+    "direction": "maximize",
+    "range": [
+      0,
+      1
+    ]
+  },
+  "baseline": {
+    "paper": 0.432,
+    "reproduction": 0.422,
+    "source": "digest-pinned upstream image /opt/project/task.md",
+    "newly_reproduced": false
+  },
+  "components": [
+    "seed_0",
+    "seed_42",
+    "seed_123"
+  ],
+  "aggregation": "mean",
+  "protocol": "25 classes, PPL+XPL inputs. Use only the upstream single fixed fold; opposite CV fold would leak test data. Three seeds 0,42,123; mean macro F1.",
+  "reference_sha256": {
+    "repo/README.md": "6c1963e531c00a7f529db6d9be4fa8d0a0b2ff3ce6a9b825ed27da58475be05a",
+    "repo/data_loader.py": "4f25e68f5ed57f78eead81f612a3d48e16076e45d63e13ba3e1a99f360559ca9",
+    "repo/environment.yaml": "886119375052234558024dee368ae9aa76a3071f37b62d11ad9c8aee5d620b00",
+    "repo/main.py": "24ab966116befdc1311d56f0a992f580a764bd8cbc6cf6e2a03aec4b79680a3f",
+    "repo/meters/logging.py": "86a0cc2de7c03096b8d1c153e6a3dd9754197652ac7536cd1b390854d0e5ca6e",
+    "repo/meters/misc.py": "e3f00637eb6e9a593ff57333e4e702532d420fdf484a79493aace2751bfd53c4",
+    "repo/polar_vit_arch.py": "1c9900de1282c8daf117a6c5a74707c01f659e8d27e7ef23acf769fccbe14e55",
+    "repo/utils.py": "33be27b803fc565624f4088b818d1ff6bfca2d552d800a7b901661b490ace38e",
+    "reproduction/CHANGES.md": "94962b796b292a18e6c2c842810d08548067d420f4c20471da878567fbec0eee",
+    "reproduction/outputs/perclass_s0_epoch_best_acc_test.json": "26f5a58c2c478f3a91b1549b08a0bc52be2e0e13c2d3fa10fd4d285835c2ccb3",
+    "reproduction/outputs/perclass_s123_epoch_best_acc_test.json": "22147bbe3c44345be5b591f91601b1018528801bf5ea2c5fec16860c3d047448",
+    "reproduction/outputs/perclass_s42_epoch_best_acc_test.json": "5c3177ce7aea8a9bff59b547b0917d6c68bde0043e35449ed91c4615137eb4ed",
+    "reproduction/repo/README.md": "6c1963e531c00a7f529db6d9be4fa8d0a0b2ff3ce6a9b825ed27da58475be05a",
+    "reproduction/repo/data_loader_h5.py": "50637656860dacbc7c6a8f5487d9643979b5b851f9ea678c1f60166eb84f5eaa",
+    "reproduction/repo/main.py": "dd68163312e49fb8c015e64a4b7ce8be8e90c7a34ac794b3af8b2d203341db92",
+    "reproduction/repo/meters/logging.py": "86a0cc2de7c03096b8d1c153e6a3dd9754197652ac7536cd1b390854d0e5ca6e",
+    "reproduction/repo/meters/misc.py": "e3f00637eb6e9a593ff57333e4e702532d420fdf484a79493aace2751bfd53c4",
+    "reproduction/repo/polar_vit_arch.py": "1c9900de1282c8daf117a6c5a74707c01f659e8d27e7ef23acf769fccbe14e55",
+    "reproduction/repo/utils.py": "33be27b803fc565624f4088b818d1ff6bfca2d552d800a7b901661b490ace38e",
+    "reproduction/report.json": "38e8a2237a96de7432fd80af77ff55dcf3273b319a5bcdb1272ca5933e0bdad8",
+    "task.md": "10087f7eeec8bd97f2b60257092ebb988f02a31f515aabf1f2640f960c2c2c23"
+  },
+  "judge_cli_version": "2.1.322",
+  "judge_stage_timeout_sec": 21600,
+  "validation_status": "packaged; GPU baseline and real evaluator not yet run"
+}

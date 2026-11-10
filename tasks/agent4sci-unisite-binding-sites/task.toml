@@ -1,0 +1,52 @@
+schema_version = "1.4"
+
+[task]
+name = "rsi/agent4sci-unisite-binding-sites"
+version = "1.0.0"
+description = "UniSite: ligand binding-site detection"
+
+[metadata]
+author_name = "OpenRSI contributors; upstream Agent4Sci authors"
+category = "ML"
+subcategory = "Scientific discovery"
+tags = ["autoresearch", "agent4sci", "bioengineering"]
+difficulty_explanation = "Long-horizon scientific model development with fixed data splits and seed/fold coverage."
+verification_explanation = "Upstream independent evaluation agent plus separate integrity auditor, then strict continuous reward conversion."
+expert_time_estimate_hours = 12
+
+[metadata.agent4sci]
+project = "UniSite"
+subtask = "binding_site_detection"
+track = "suite"
+upstream_revision = "74b0e8c4dc55610072bed4326b6bfac24dc77377"
+validation_status = "packaged; GPU baseline and real evaluator not yet run"
+recommended_max_submissions = 1
+
+[metadata.rsi_harness.verifier]
+gpus = 8
+
+[environment]
+os = "linux"
+cpus = 32
+memory_mb = 524288
+storage_mb = 1048576
+gpus = 8
+gpu_types = ["H200"]
+workdir = "/workspace"
+build_timeout_sec = 86400
+network_mode = "public"
+
+[agent]
+user = "agent"
+timeout_sec = 43200
+network_mode = "public"
+
+[verifier]
+user = "root"
+timeout_sec = 86400
+environment_mode = "shared"
+network_mode = "public"
+
+[verifier.env]
+ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY}"
+AGENT4SCI_JUDGE_MODEL = "${AGENT4SCI_JUDGE_MODEL}"

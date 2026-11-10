@@ -1,0 +1,78 @@
+{
+  "id": "agent4sci-grnade-rna-design",
+  "title": "gRNAde: 3D RNA inverse design",
+  "project": "gRNAde",
+  "data_task": "single_state",
+  "domain": "Bioengineering",
+  "track": "suite",
+  "image": "ghcr.io/maszhongming/agent4sci-grnade@sha256:7ea16dead2b7ab59330eb622d22c5ad3dc81a4555e41cd96699329e745882724",
+  "upstream_revision": "74b0e8c4dc55610072bed4326b6bfac24dc77377",
+  "dataset": {
+    "repo": "MingZhong/agent4sci",
+    "revision": "96befc0fb951a312b224af2a33767649d9069a55"
+  },
+  "data_files": {
+    "train": [
+      "gRNAde/single_state/train/data.pt"
+    ],
+    "val": [
+      "gRNAde/single_state/val/data.pt"
+    ],
+    "test": [
+      "gRNAde/single_state/test/data.pt"
+    ]
+  },
+  "metric": {
+    "name": "recovery_scmcc_composite",
+    "unit": "fraction",
+    "direction": "maximize",
+    "range": [
+      -0.5,
+      1
+    ]
+  },
+  "baseline": {
+    "paper": 0.575,
+    "reproduction": 0.577,
+    "source": "digest-pinned upstream image /opt/project/task.md",
+    "newly_reproduced": false
+  },
+  "components": [
+    "seed_0",
+    "seed_1",
+    "seed_2"
+  ],
+  "aggregation": "mean",
+  "protocol": "Das single-state split, max_num_conformers=1; seeds 0,1,2. Sample 16 sequences per structure at temperature0.1. Each component=(Recovery+EternaFold scMCC)/2; average full test structures and seeds. Do not substitute a different folding evaluator.",
+  "reference_sha256": {
+    "reproduction/CHANGES.md": "e365487723a9d85f9554d3d3ac198e3bf8e0d136ab81717384c29c7d0dcd25da",
+    "reproduction/outputs/final_s0/test_results_seed0.json": "b51cffc37279c05c2ba73066e65f276dac979ecb9479c849008c36c6df6d5a14",
+    "reproduction/outputs/final_s0/val_results_seed0.json": "47edeba48c71b74f8382ac431e86b081b052df69a63e4b84e99d065f21cdec45",
+    "reproduction/outputs/final_s1/test_results_seed1.json": "7306c71be4d18610e6f357966095676ff3b06f2f023cebb8750d73b3a750dfa0",
+    "reproduction/outputs/final_s1/val_results_seed1.json": "f7cab5a3e580feee5f4fd7b6d67787649676eb82c217ab3e371f0b68762941b2",
+    "reproduction/outputs/final_s2/test_results_seed2.json": "5e70a56507f7e36d34a5d1316d1bf876d932741a0995391bc256403bed605dc7",
+    "reproduction/outputs/final_s2/val_results_seed2.json": "405d5ed0af8e8cadd440a8a39cba116abb21f3eb04e0b4b19b3ccf7622653125",
+    "reproduction/repo/configs/reproduce.yaml": "eec86de9513c66135cb01ba71abea869bd6b853296482cee34437f281b687cd0",
+    "reproduction/repo/eval_test.py": "a34cadb5b82f14775d79231e89687ae85d779874c8cae5e36986384da672caf4",
+    "reproduction/repo/eval_val.md": "8dc38e1b3a9597d38036674ce8d2f290dd61037d8cbefef67ee2691254746c16",
+    "reproduction/repo/main.py": "111d0cde9b642ee1190b1e7c9e725ca8fb2662a518337f581dc06a3954d6dad1",
+    "reproduction/repo/src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reproduction/repo/src/constants.py": "5af78d82f843c7740ee44865bd67a99471624b732cae840323d9f28f1929cde4",
+    "reproduction/repo/src/data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reproduction/repo/src/data/data_utils.py": "2381f0c832e438e6b86a3d6c8e999d92e949cd894ad7374eb706d99c572643f3",
+    "reproduction/repo/src/data/dataset.py": "cea25c1d60f89a62748dfcc42c13804b271f1b0b158cda3d6ab6cacd0cb509c4",
+    "reproduction/repo/src/data/featurizer.py": "121c95c93797b0cf822c2f5fad9b10d1af803cfccae1f6e1ac9afd50cece34f5",
+    "reproduction/repo/src/data/sec_struct_utils.py": "2cf418f9f52b857aac749a1018693e1e52371b2d8fab9f233251bbcced62c7bc",
+    "reproduction/repo/src/evaluator.py": "41213482db840abd29478eec9b9d339a287429e110559419ff79069f1b3b39db",
+    "reproduction/repo/src/layers.py": "1e089924dffa71e56e707a6b2dd04ead7cea341c58461d8c0e783d66bb627a24",
+    "reproduction/repo/src/models.py": "bf53703e17b827083debc881f062a2ced2ad30fbe9999ed96a7da805816df44e",
+    "reproduction/repo/src/openknot_score.py": "6b82843e42f04981cd58035a58e5ace8bd7fd9d5b5b546b73c8607d0429226b5",
+    "reproduction/repo/src/trainer.py": "4c153177edafccd9042371103195728d64ea2ecb4011da52b1e896417e605c96",
+    "reproduction/repo/tools/EternaFold/parameters/README.md": "c25467ae138268f605e4e6d7f7b51e48aa840bcc67314fd7491a91f817b41103",
+    "reproduction/report.json": "5642376470269926084e3573f990c7adf6665c89d3047706ddbaf6d2033c1c58",
+    "task.md": "93c980029f57793c1ca75dd1fef00df4b21b87112eb2feffe737fb06357c9e05"
+  },
+  "judge_cli_version": "2.1.322",
+  "judge_stage_timeout_sec": 21600,
+  "validation_status": "packaged; GPU baseline and real evaluator not yet run"
+}

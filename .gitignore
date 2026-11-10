@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.rsi-harness/
+logs/
+runs/
+.env
+*.pt
+*.pth
+*.safetensors
+*.sqfs
+*.tar
+*.tar.gz

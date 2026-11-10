@@ -1,0 +1,59 @@
+{
+  "id": "agent4sci-gtpbd-terraces",
+  "title": "GTPBD: terraced-parcel segmentation",
+  "project": "GTPBD",
+  "data_task": "semantic_segmentation",
+  "domain": "Geography",
+  "track": "suite",
+  "image": "ghcr.io/maszhongming/agent4sci-gtpbd@sha256:5cef891acbc51a00db027a5879d6308cda9af9c89c870d9f8faad0a194c5ef53",
+  "upstream_revision": "74b0e8c4dc55610072bed4326b6bfac24dc77377",
+  "dataset": {
+    "repo": "MingZhong/agent4sci",
+    "revision": "96befc0fb951a312b224af2a33767649d9069a55"
+  },
+  "data_files": {
+    "train": [
+      "GTPBD/semantic_segmentation/train/data.pt"
+    ],
+    "val": [
+      "GTPBD/semantic_segmentation/val/data.pt"
+    ],
+    "test": [
+      "GTPBD/semantic_segmentation/test/data.pt"
+    ]
+  },
+  "metric": {
+    "name": "miou",
+    "unit": "percent",
+    "direction": "maximize",
+    "range": [
+      0,
+      100
+    ]
+  },
+  "baseline": {
+    "paper": 57.16,
+    "reproduction": 69.87,
+    "source": "digest-pinned upstream image /opt/project/task.md",
+    "newly_reproduced": false
+  },
+  "components": [
+    "single_run"
+  ],
+  "aggregation": "mean",
+  "protocol": "Binary terrace/background segmentation, 512x512 patches, geographic-region 60/20/20 split. mIoU is the mean of BOTH class IoUs; not just foreground IoU.",
+  "reference_sha256": {
+    "repo/README.md": "41db55a5d0265fd5a36861123f33e2528be8eb87d74f5a35e90d5eac27c25f5e",
+    "repo/caculate_pixel_edge_object.py": "734c42fd28c0ceaa0801d2f15d9f13dab7d467585ed9c2a1e7c2e9cec99606e4",
+    "repo/ods_ios_eval_txt_generate.py": "0df214fb283c9609ddaedf1a6cc8b632c3a6c847ce3358d0b9085cded94cbd96",
+    "reproduction/CHANGES.md": "1c44a75eae7da147712f385eefac07280f4dd88a031656a8450d2b80c055b2b9",
+    "reproduction/repo/eval_test.py": "8de8e886f473beb1f34fabde79b67846ddbd45e2c215ea24c1d8e02bef9df368",
+    "reproduction/repo/eval_val.py": "9082e184f630d98c12a17d4e3950854a61ea8167665838f139d85186fbabc11a",
+    "reproduction/repo/train.py": "3f524e1191930de527e2e566df07b3d27a64a854c9f871faa8dc174b59851861",
+    "reproduction/report.json": "2caa19d67cb0188c34815fa77d9dc280371a99b59d14116489cd660901245f50",
+    "task.md": "a14c8ed591dae4ba6b6d40de48bf95eea1e2a66cffbf5bed033d1ad987fdd45c"
+  },
+  "judge_cli_version": "2.1.322",
+  "judge_stage_timeout_sec": 21600,
+  "validation_status": "packaged; GPU baseline and real evaluator not yet run"
+}

@@ -1,0 +1,108 @@
+{
+  "id": "agent4sci-neurograph-intelligence",
+  "title": "NeuroGraph: fluid-intelligence regression",
+  "project": "NeuroGraph",
+  "data_task": "hcp_fi_gnn",
+  "domain": "Neuroscience",
+  "track": "suite",
+  "image": "ghcr.io/maszhongming/agent4sci-neurograph@sha256:64d547eabfe9b454b53f1709ea06fc4d2f2d2ec39be002a78911631ed92f271c",
+  "upstream_revision": "74b0e8c4dc55610072bed4326b6bfac24dc77377",
+  "dataset": {
+    "repo": "MingZhong/agent4sci",
+    "revision": "96befc0fb951a312b224af2a33767649d9069a55"
+  },
+  "data_files": {
+    "train": [
+      "NeuroGraph/hcp_fi_gnn/train/data.pt"
+    ],
+    "val": [
+      "NeuroGraph/hcp_fi_gnn/val/data.pt"
+    ],
+    "test": [
+      "NeuroGraph/hcp_fi_gnn/test/data.pt"
+    ]
+  },
+  "metric": {
+    "name": "mae",
+    "unit": "native",
+    "direction": "minimize",
+    "range": [
+      0,
+      null
+    ]
+  },
+  "baseline": {
+    "paper": 0.264,
+    "reproduction": 0.272,
+    "source": "digest-pinned upstream image /opt/project/task.md",
+    "newly_reproduced": false
+  },
+  "components": [
+    "seed_123",
+    "seed_124"
+  ],
+  "aggregation": "mean",
+  "protocol": "HCP fluid intelligence, GNN-based architecture REQUIRED. Two seeds 123,124. Use the upstream variant of MAE exactly, not a standard replacement formula.",
+  "reference_sha256": {
+    "repo/.readthedocs.yaml": "09f42c6a73c7cfec54bad1ae1f2fc27a2b7ff0b0bfc8185b7071a8c9f3d32d11",
+    "repo/Dynamic/dynamicGnn.py": "8c1a681a60e0d443aa815d5f0027264b89d34993ba82ee71e49e50bcbaebf4b7",
+    "repo/Dynamic/main-dynamic.py": "408cbff48360eaa6751e57b9f23e39ca3426c4a04335357b06ee926c8bd04f39",
+    "repo/LICENSE.txt": "73110b90b8010f33101533aa92a995d7abc13bd4e901b5346f2fc6b390ce6639",
+    "repo/NeuroGraph/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "repo/NeuroGraph/datasets.py": "f38baceac561515d70be05d98a749dd901c95ef7176c3c25fc526958ceb23192",
+    "repo/NeuroGraph/preprocess.py": "58ff7df6ffdc97af5ac9f0d2bc41c7080817e9599bb76cea539670b51b109e20",
+    "repo/NeuroGraph/test.py": "a9208fbb455c81e7a506f02be9231ebb845ebacbe85a5b2664d8cac1233e725c",
+    "repo/NeuroGraph/utils.py": "925f6d88e11146e963ecb0384a15d99b05b4cb8b45aca4a07290f4b523a4f103",
+    "repo/README.md": "2069b7ecf9348f1486c84a7b773f5f22fde9f3ad2a6b61399c584a9dd02ef971",
+    "repo/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "repo/doc/_build/html/_sources/NeuroGraph.rst.txt": "b614d1c38bb8ad221504466fd7877fd72d5a3c0abf7f1d5bc251037182a7020b",
+    "repo/doc/_build/html/_sources/datasets.rst.txt": "05f180dad474139dcd9328deb4cfa063f88bf310d2e354876ddbbb4e40c34b8c",
+    "repo/doc/_build/html/_sources/get_started.rst.txt": "931c1f0f87714ad60d944cf59d6e132741fb4cfa33dd75f3e5468fda9d02b94b",
+    "repo/doc/_build/html/_sources/index.rst.txt": "c1357cdc619fa0d6d3338e05a4e7ee0e826fbccd6549226976b28a1e6bca61ce",
+    "repo/doc/_build/html/_sources/install.rst.txt": "3da597ba8ab17f3e1e6c55a80d6504660f79fe8d6e50a154c5ea74ef0811d78b",
+    "repo/doc/_build/html/_sources/preprocess.rst.txt": "8e281e580cf19095ff97e57f64415acf72f942bdba4ca806cce3900075a20b87",
+    "repo/doc/_build/html/_sources/utils.rst.txt": "f54e93ef5069c3e77f9f58d08fb3ec05258367c3de05b505e1da1078328081e4",
+    "repo/doc/conf.py": "79ad56bd83d43efaca3a9ce07ca0676d6a44ac12728b0c236ca58dfc581de815",
+    "repo/main.py": "20e1b8d959dce5c7739524d140048f55c9170814257aecb575faf3697a837a52",
+    "repo/main_dynamic.py": "923f8f8849ad2aac42e7b150ac2ba00e47d199c49ff45d7662ccee881ac5f38d",
+    "repo/requirements.txt": "0f6c264d83503888cdc081e75e0e4f93cb2d95bcd2c90426fffd9d0bf74f7ec6",
+    "repo/run_baseline.sh": "55bfc0f2b25441243758f2a5608bb65c44dfa62d76faa90d94a1f21032cefeb7",
+    "repo/setup.py": "41eda0b33c6428cc2652665d57decda758b84d95bbbd44bd9092454b564c44ea",
+    "repo/test.py": "2dd8f3761c7433111a27af1d0a2f0e75253b0bf5cd91e28fd9065e19b617fe60",
+    "repo/utils.py": "7d37d972d636fb4e9013dcfede78b6bc3efefc270bec84c9c07f8019cf15d0ec",
+    "reproduction/CHANGES.md": "2c4bce2ea5e970b8c098f2e7a8689cc789bf8fed24b586bcbde510e1edf480b5",
+    "reproduction/repo/.readthedocs.yaml": "09f42c6a73c7cfec54bad1ae1f2fc27a2b7ff0b0bfc8185b7071a8c9f3d32d11",
+    "reproduction/repo/Dynamic/dynamicGnn.py": "8c1a681a60e0d443aa815d5f0027264b89d34993ba82ee71e49e50bcbaebf4b7",
+    "reproduction/repo/Dynamic/main-dynamic.py": "408cbff48360eaa6751e57b9f23e39ca3426c4a04335357b06ee926c8bd04f39",
+    "reproduction/repo/LICENSE.txt": "73110b90b8010f33101533aa92a995d7abc13bd4e901b5346f2fc6b390ce6639",
+    "reproduction/repo/NeuroGraph/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reproduction/repo/NeuroGraph/datasets.py": "bf5e44b6e7231d4e6a61f836d0ceddf0f512858895fadfa78483f6644d9610ac",
+    "reproduction/repo/NeuroGraph/preprocess.py": "58ff7df6ffdc97af5ac9f0d2bc41c7080817e9599bb76cea539670b51b109e20",
+    "reproduction/repo/NeuroGraph/test.py": "a9208fbb455c81e7a506f02be9231ebb845ebacbe85a5b2664d8cac1233e725c",
+    "reproduction/repo/NeuroGraph/utils.py": "925f6d88e11146e963ecb0384a15d99b05b4cb8b45aca4a07290f4b523a4f103",
+    "reproduction/repo/README.md": "2069b7ecf9348f1486c84a7b773f5f22fde9f3ad2a6b61399c584a9dd02ef971",
+    "reproduction/repo/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reproduction/repo/doc/_build/html/_sources/NeuroGraph.rst.txt": "b614d1c38bb8ad221504466fd7877fd72d5a3c0abf7f1d5bc251037182a7020b",
+    "reproduction/repo/doc/_build/html/_sources/datasets.rst.txt": "05f180dad474139dcd9328deb4cfa063f88bf310d2e354876ddbbb4e40c34b8c",
+    "reproduction/repo/doc/_build/html/_sources/get_started.rst.txt": "931c1f0f87714ad60d944cf59d6e132741fb4cfa33dd75f3e5468fda9d02b94b",
+    "reproduction/repo/doc/_build/html/_sources/index.rst.txt": "c1357cdc619fa0d6d3338e05a4e7ee0e826fbccd6549226976b28a1e6bca61ce",
+    "reproduction/repo/doc/_build/html/_sources/install.rst.txt": "3da597ba8ab17f3e1e6c55a80d6504660f79fe8d6e50a154c5ea74ef0811d78b",
+    "reproduction/repo/doc/_build/html/_sources/preprocess.rst.txt": "8e281e580cf19095ff97e57f64415acf72f942bdba4ca806cce3900075a20b87",
+    "reproduction/repo/doc/_build/html/_sources/utils.rst.txt": "f54e93ef5069c3e77f9f58d08fb3ec05258367c3de05b505e1da1078328081e4",
+    "reproduction/repo/doc/conf.py": "79ad56bd83d43efaca3a9ce07ca0676d6a44ac12728b0c236ca58dfc581de815",
+    "reproduction/repo/main.py": "20e1b8d959dce5c7739524d140048f55c9170814257aecb575faf3697a837a52",
+    "reproduction/repo/main_dynamic.py": "923f8f8849ad2aac42e7b150ac2ba00e47d199c49ff45d7662ccee881ac5f38d",
+    "reproduction/repo/requirements.txt": "0f6c264d83503888cdc081e75e0e4f93cb2d95bcd2c90426fffd9d0bf74f7ec6",
+    "reproduction/repo/run_baseline.sh": "55bfc0f2b25441243758f2a5608bb65c44dfa62d76faa90d94a1f21032cefeb7",
+    "reproduction/repo/setup.py": "41eda0b33c6428cc2652665d57decda758b84d95bbbd44bd9092454b564c44ea",
+    "reproduction/repo/test.py": "2dd8f3761c7433111a27af1d0a2f0e75253b0bf5cd91e28fd9065e19b617fe60",
+    "reproduction/repo/utils.py": "7d37d972d636fb4e9013dcfede78b6bc3efefc270bec84c9c07f8019cf15d0ec",
+    "reproduction/report.json": "564a4587c56e6ef64cf151e397a5912a2aa82d960bd3a58153c2b94d712b5d46",
+    "reproduction/wrappers/eval_test.py": "04c80b0b16f5acbb0c7e65f3fa9df07dc28b7e8822a5b27b24550761dc8b7bbf",
+    "reproduction/wrappers/train.py": "4f5a65477f75c05c22c5305cb4e0f850572d255af00c40eaa503c41857fd00bd",
+    "task.md": "f679e662dfc9759984fbecee92549136455ad6d7029b1ddb7a08adb773c12b15"
+  },
+  "judge_cli_version": "2.1.322",
+  "judge_stage_timeout_sec": 21600,
+  "validation_status": "packaged; GPU baseline and real evaluator not yet run"
+}

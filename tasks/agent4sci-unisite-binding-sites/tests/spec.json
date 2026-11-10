@@ -1,0 +1,98 @@
+{
+  "id": "agent4sci-unisite-binding-sites",
+  "title": "UniSite: ligand binding-site detection",
+  "project": "UniSite",
+  "data_task": "binding_site_detection",
+  "domain": "Bioengineering",
+  "track": "suite",
+  "image": "ghcr.io/maszhongming/agent4sci-unisite@sha256:737aa1c09bcc41f8772e0cafb367ea6c011ac6ede094364ca5d5c88b96dd8c5c",
+  "upstream_revision": "74b0e8c4dc55610072bed4326b6bfac24dc77377",
+  "dataset": {
+    "repo": "MingZhong/agent4sci",
+    "revision": "96befc0fb951a312b224af2a33767649d9069a55"
+  },
+  "data_files": {
+    "train": [
+      "UniSite/binding_site_detection/train/proteins.pkl"
+    ],
+    "val": [
+      "UniSite/binding_site_detection/val/proteins.pkl"
+    ],
+    "test": [
+      "UniSite/binding_site_detection/test/proteins.pkl"
+    ]
+  },
+  "metric": {
+    "name": "ap_0_5",
+    "unit": "fraction",
+    "direction": "maximize",
+    "range": [
+      0,
+      1
+    ]
+  },
+  "baseline": {
+    "paper": 0.3835,
+    "reproduction": 0.383,
+    "source": "digest-pinned upstream image /opt/project/task.md",
+    "newly_reproduced": false
+  },
+  "components": [
+    "single_run"
+  ],
+  "aggregation": "mean",
+  "protocol": "UniSite-DS full test set, original AP at IoU threshold 0.5; single run. Preserve original site matching and structure preprocessing.",
+  "reference_sha256": {
+    "repo/DATASETS.md": "b11adf832ad9f6e5ff8c1cf390f65f77585509a91c14f5eb74a7aa203190d90c",
+    "repo/EVALUATION.md": "702627d5cf5e5cda5a2f3997fb016368c680de8a9d964654eb97de84a7dd4c8d",
+    "repo/README.md": "27bbbb9973c66e5da64718130cc699f034d42c5f95949cbdff878d43d62536e2",
+    "repo/config/inference.yaml": "32649ef9b129517a87627fac5f85089a111802cae63885f481b7d584f5579f3c",
+    "repo/predict.sh": "17967cd4e333cb6fc6f91fa4109b82a2cdfe87655660b1f439942d72287c5e79",
+    "repo/requirements.txt": "11999ceb126745f861b8e352e10dc84aa9b54e2948672f1e779acdf0a16a0faf",
+    "repo/scripts/calc_center.py": "812e53e0cdf45a3555a357cb590b26e8e02f1dd3e551b136ff5acb8712830acc",
+    "repo/scripts/inference.py": "21472973d4d7ea8d62b5afeeb1aa9b3b8355e53e537a7024be2c15060f6fff2f",
+    "repo/setup.py": "04073d480df86b2e57335a712eeb811b1a32ddc304c2896edac51dd80d8111fb",
+    "repo/unisite/__init__.py": "a9cf16ebeb4fd29cf8a4b1fc56202080ea3d7747f09d3fcef12f559c50bc0385",
+    "repo/unisite/data/__init__.py": "f202b31308b62495cc9d85d6b3c9a209a50946e4681c30b0dc9a53612ed4fe49",
+    "repo/unisite/data/clean_pdb.py": "0d23742fe505d744763e86a1c835c99aca2e6817a0f092d785169749f828006a",
+    "repo/unisite/data/dataset.py": "af5a95c30f160d189a02895b4158eff1f18de304636fa48b27f84444adc95e06",
+    "repo/unisite/data/residue_constants.py": "2b4172352d78629b1a7f7d7f53950b6d4af9aef51322a89e3078e3c96d192cf1",
+    "repo/unisite/data/utils.py": "26861f268838d387d9c220bf2c0eb3dda5a1870d2fb71ad344b1422fa25949cc",
+    "repo/unisite/evaluation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "repo/unisite/evaluation/dcc_dca.py": "83e80d3d5d095cebaded0d0ee336eadec32a73f35b0c8fdb079680b577e40ef4",
+    "repo/unisite/evaluation/eval_ap.py": "707e0f487fab958800e7415c8d5ae0d2ef869f6fc493512714349adb3f1221e0",
+    "repo/unisite/evaluation/eval_dcc_dca.py": "ac1312f7f9905393a0864688016527f148eed2fff1bfe080e86c820ff09da124",
+    "repo/unisite/evaluation/mean_ap.py": "5af2ef9a9410c942fb75234a56c3f928041b5f9bb33949ab375f7bee6b9be6a8",
+    "repo/unisite/model/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "repo/unisite/model/detector.py": "4146afd4da0149c3c18e77308b6fae1f482fb4b7eea1d7da5b1c42dcbcdc2aa1",
+    "repo/unisite/model/gearnet.py": "b704f2ce1dfe41ddc287eeda1814ba27af5473409ddff5003c2d3ef88b5bdf3d",
+    "repo/unisite/model/transformer.py": "a90337520671ed3c40f710cca9ba5e1987400cff2925eac3db1c6172ffdcc717",
+    "repo/unisite/model/utils.py": "9e707d08de6f69a330bb66ce1ee0bf66fcfafdfffdafafd5efa5a8565169b60a",
+    "reproduction/CHANGES.md": "65c803160405cceaac940ad82a4b0a89b5d9063ba373d02e1859d7113175f730",
+    "reproduction/repo/config/train.yaml": "4966979606ae580159119b554f3b4a69f3d9cbbd3e78727be7b64062a8f7bcd3",
+    "reproduction/repo/scripts/eval_test.py": "1a7f0caada55b022df4906326430706dd55ba6d004f229b3bc4d0e5c3d0b1961",
+    "reproduction/repo/scripts/train.py": "43109fb8d69c28033e71d82eaf313aa3d2ae4a5f0bf1d5272733fe92be0fcfb1",
+    "reproduction/repo/setup.py": "04073d480df86b2e57335a712eeb811b1a32ddc304c2896edac51dd80d8111fb",
+    "reproduction/repo/unisite/__init__.py": "a9cf16ebeb4fd29cf8a4b1fc56202080ea3d7747f09d3fcef12f559c50bc0385",
+    "reproduction/repo/unisite/data/__init__.py": "f202b31308b62495cc9d85d6b3c9a209a50946e4681c30b0dc9a53612ed4fe49",
+    "reproduction/repo/unisite/data/clean_pdb.py": "0d23742fe505d744763e86a1c835c99aca2e6817a0f092d785169749f828006a",
+    "reproduction/repo/unisite/data/dataset.py": "af5a95c30f160d189a02895b4158eff1f18de304636fa48b27f84444adc95e06",
+    "reproduction/repo/unisite/data/residue_constants.py": "2b4172352d78629b1a7f7d7f53950b6d4af9aef51322a89e3078e3c96d192cf1",
+    "reproduction/repo/unisite/data/utils.py": "26861f268838d387d9c220bf2c0eb3dda5a1870d2fb71ad344b1422fa25949cc",
+    "reproduction/repo/unisite/evaluation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reproduction/repo/unisite/evaluation/dcc_dca.py": "83e80d3d5d095cebaded0d0ee336eadec32a73f35b0c8fdb079680b577e40ef4",
+    "reproduction/repo/unisite/evaluation/eval_ap.py": "707e0f487fab958800e7415c8d5ae0d2ef869f6fc493512714349adb3f1221e0",
+    "reproduction/repo/unisite/evaluation/eval_dcc_dca.py": "ac1312f7f9905393a0864688016527f148eed2fff1bfe080e86c820ff09da124",
+    "reproduction/repo/unisite/evaluation/mean_ap.py": "5af2ef9a9410c942fb75234a56c3f928041b5f9bb33949ab375f7bee6b9be6a8",
+    "reproduction/repo/unisite/model/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reproduction/repo/unisite/model/detector.py": "4146afd4da0149c3c18e77308b6fae1f482fb4b7eea1d7da5b1c42dcbcdc2aa1",
+    "reproduction/repo/unisite/model/gearnet.py": "b704f2ce1dfe41ddc287eeda1814ba27af5473409ddff5003c2d3ef88b5bdf3d",
+    "reproduction/repo/unisite/model/transformer.py": "a90337520671ed3c40f710cca9ba5e1987400cff2925eac3db1c6172ffdcc717",
+    "reproduction/repo/unisite/model/utils.py": "9e707d08de6f69a330bb66ce1ee0bf66fcfafdfffdafafd5efa5a8565169b60a",
+    "reproduction/report.json": "0542badabc3eeabf21f22f1e73c48d5dc092a48007967a760958c70e417f3143",
+    "task.md": "5e74c0878e3024864423560c5e9956a12ac0dca9d90011a1a64c37661b6ba31d"
+  },
+  "judge_cli_version": "2.1.322",
+  "judge_stage_timeout_sec": 21600,
+  "validation_status": "packaged; GPU baseline and real evaluator not yet run"
+}

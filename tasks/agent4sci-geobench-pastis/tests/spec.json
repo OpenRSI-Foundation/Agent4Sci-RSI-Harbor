@@ -1,0 +1,117 @@
+{
+  "id": "agent4sci-geobench-pastis",
+  "title": "GEO-Bench-2: crop-type segmentation",
+  "project": "GEO-Bench-2",
+  "data_task": "pastis",
+  "domain": "Geography",
+  "track": "suite",
+  "image": "ghcr.io/maszhongming/agent4sci-geo-bench-2@sha256:f97191e767499b9ac6e4846d6a6ebcb5baf9526ed0329d40bd8fe9ce5866d5d5",
+  "upstream_revision": "74b0e8c4dc55610072bed4326b6bfac24dc77377",
+  "dataset": {
+    "repo": "MingZhong/agent4sci",
+    "revision": "96befc0fb951a312b224af2a33767649d9069a55"
+  },
+  "data_files": {
+    "train": [
+      "GEO-Bench-2/pastis/train/geobench_pastis_train.tortilla",
+      "GEO-Bench-2/pastis/train/pastis_stats_clip_rescale.json",
+      "GEO-Bench-2/pastis/train/pastis_stats_satmae.json"
+    ],
+    "val": [
+      "GEO-Bench-2/pastis/val/geobench_pastis_val.tortilla",
+      "GEO-Bench-2/pastis/val/pastis_stats_clip_rescale.json",
+      "GEO-Bench-2/pastis/val/pastis_stats_satmae.json"
+    ],
+    "test": [
+      "GEO-Bench-2/pastis/test/geobench_pastis_test.tortilla",
+      "GEO-Bench-2/pastis/test/pastis_stats_clip_rescale.json",
+      "GEO-Bench-2/pastis/test/pastis_stats_satmae.json"
+    ]
+  },
+  "metric": {
+    "name": "miou",
+    "unit": "percent",
+    "direction": "maximize",
+    "range": [
+      0,
+      100
+    ]
+  },
+  "baseline": {
+    "paper": 43.1,
+    "reproduction": 45.9,
+    "source": "digest-pinned upstream image /opt/project/task.md",
+    "newly_reproduced": false
+  },
+  "components": [
+    "seed_0",
+    "seed_1",
+    "seed_2",
+    "seed_3",
+    "seed_4"
+  ],
+  "aggregation": "mean",
+  "protocol": "PASTIS, five seeds 0..4. Macro MulticlassJaccardIndex, ignore void class 19. Fixed split-specific tortilla files; final mIoU in percent.",
+  "reference_sha256": {
+    "reproduction/CHANGES.md": "0083dc4b70fcdca76b304e5c41a81fa88331f3ba9c069333a368861c970a3876",
+    "reproduction/repo/README.md": "d97b72c1975ce5be7806ae3fd9e4c179191f2fd689aac2df65878d922a7fbb79",
+    "reproduction/repo/eval_test.py": "0c8ca38d7c30b1876f13795fe731a6ab291e19f1163790c5a3ce7dfb3140ae1c",
+    "reproduction/repo/geobench_v2/__init__.py": "797b0e16fde995b1f8eb96facaea3b5d5475682ab928a48b858ddca6d5d16aa0",
+    "reproduction/repo/geobench_v2/datamodules/__init__.py": "0fd97edf82fd00682ab64526ae46817e5241caab6df3998ae7862d7dfb69bf33",
+    "reproduction/repo/geobench_v2/datamodules/base.py": "1556b8547090757c2bbcf3e136303340a4bf731e36569c8be64278467d3d0fad",
+    "reproduction/repo/geobench_v2/datamodules/benv2.py": "dec6dfa3eeb092d943586ea0518d659d879bbcda9fd5bafd8b487212cd51e62f",
+    "reproduction/repo/geobench_v2/datamodules/biomassters.py": "2bdf4dbf956ef0b29aa9aa42e56073263be1f805621fcd5d3a8723178f158f45",
+    "reproduction/repo/geobench_v2/datamodules/burn_scars.py": "2616eb82ce9a90a196e0b3512299756eea00e800009131ae781096f708efdd3d",
+    "reproduction/repo/geobench_v2/datamodules/caffe.py": "f38a903e91070d0262191d827921114f022fbbd467037b1f92ff31e9f2fe1ff4",
+    "reproduction/repo/geobench_v2/datamodules/cloudsen12.py": "3c118cd377182b66d8f0470e9b71304fa39fc179c4d0be2b3f22a14e4cfa04c7",
+    "reproduction/repo/geobench_v2/datamodules/dynamic_earthnet.py": "2246c679110958cec672889c6cbfaf9dd2e5f98cf920f7f8fe52f2dae4f5dd16",
+    "reproduction/repo/geobench_v2/datamodules/everwatch.py": "9758146252926794ade43042ba8f18d20eefff06a1a13efe4493d651aea98b93",
+    "reproduction/repo/geobench_v2/datamodules/flair2.py": "c74b6f341442e7d955018064709edce25a3727c7d7ab99f81fd3707562ea2d61",
+    "reproduction/repo/geobench_v2/datamodules/forestnet.py": "29574c479ba11360221222deecac4bcb9cf5f11299119b8a9f7b87f88d6e9fe4",
+    "reproduction/repo/geobench_v2/datamodules/fotw.py": "418bd3dbe540e2f19e2d3329f9676bf1aac4a14021a76ea855bf0977283304e2",
+    "reproduction/repo/geobench_v2/datamodules/kuro_siwo.py": "c506471fba7a87f2acf85f46ac547e8e4b3bc3e55a229e73dba84f075fa914ad",
+    "reproduction/repo/geobench_v2/datamodules/nzcattle.py": "a79f8c9c05aa239f2646936e9f284a361706ef1a68bd1bebb8d6637ce23c66e4",
+    "reproduction/repo/geobench_v2/datamodules/pastis.py": "8507c676e00ee3749641e2af66750013cf6fd3d11faeed76446bc2873f34fd52",
+    "reproduction/repo/geobench_v2/datamodules/pastis_panoptic.py": "80c50b646addb17c12314e8d3ef9fcd99df367a33fcf6a56f9de993102f0b1f8",
+    "reproduction/repo/geobench_v2/datamodules/so2sat.py": "927ab8b9ffe02fddaa214ba2cb0d913cf263a3c812951498f6c968c199c6c736",
+    "reproduction/repo/geobench_v2/datamodules/spacenet2.py": "978fd549dca627c743dbe88674bd7ed4f13d003f58b40254a5200ded36958f3b",
+    "reproduction/repo/geobench_v2/datamodules/spacenet6.py": "b640f256c97c0d58ee1da2c2c3d699b04b2b9b17958ee02bb161af4061202e4d",
+    "reproduction/repo/geobench_v2/datamodules/spacenet7.py": "74d720306006825399ca07eb0f983a530acca7f9d9478948ed01a44e8c6d8f1d",
+    "reproduction/repo/geobench_v2/datamodules/spacenet8.py": "ab349912a087e6de96b5efade4874ed9e52814dc013c78b9a6997d075c9d94b1",
+    "reproduction/repo/geobench_v2/datamodules/substation.py": "2728fd3b923e9c80a545984120e31a3f0cc8bb4d42b42eba997dfaaecf815a1b",
+    "reproduction/repo/geobench_v2/datamodules/treesatai.py": "d2b34e22f0b96084c0c3221aad56cef2cde6f6c06eb0464b18e6ac6e45534f09",
+    "reproduction/repo/geobench_v2/datamodules/utils.py": "c06cf5b0fade28bf124f5b4ada0a4f920bd0bbd6e4bae5f874faa2ae4062fb6c",
+    "reproduction/repo/geobench_v2/datasets/__init__.py": "7e68623011742a4effa40d8c9b6c64bfbb0a2999c35287d9325c15b3b30b25c4",
+    "reproduction/repo/geobench_v2/datasets/base.py": "7704495a10de8a42bdf7c7e349c90536131e0cde2e83cfc077ce8c7ed88cd1f9",
+    "reproduction/repo/geobench_v2/datasets/benv2.py": "14bd0b510048492d24706fdb9c18483197b7fda1d3fa41524d1263144cde5cd7",
+    "reproduction/repo/geobench_v2/datasets/biomassters.py": "9f9d8d18f6f21f374bb76ddaf854b773cacf48a85076193c6b0a46fdfdf8be73",
+    "reproduction/repo/geobench_v2/datasets/burn_scars.py": "4ea9c4b11eb3c833c2630b18d53846efec8876db8591e9fcee295d274038f961",
+    "reproduction/repo/geobench_v2/datasets/caffe.py": "0155448ee4962a827144a93220fb1e323de5be8c3b2e45a19ee4bbe4bb8f8398",
+    "reproduction/repo/geobench_v2/datasets/cloudsen12.py": "7ca853f7959271ff14b7c0a306302e2ca9e2917f32b3d4c62754d6ae72b17c83",
+    "reproduction/repo/geobench_v2/datasets/data_util.py": "b57018f7a780eb24480d9da69ca529ceeb586eaab5f2dcca97078b7af5e8a520",
+    "reproduction/repo/geobench_v2/datasets/dynamic_earthnet.py": "4fe987164da44c5207ca648f5ec5a43644dd5eb3e6fbad482d3e5efb7b266741",
+    "reproduction/repo/geobench_v2/datasets/everwatch.py": "0e9f38d16642d85794bbc833b7f1da0f9eca1e0ebf27bbbf7e97e483b121d6f7",
+    "reproduction/repo/geobench_v2/datasets/flair2.py": "097d877ada48fc9887a584c653e77cd9ccf123ae464bc056e643dbde7587319f",
+    "reproduction/repo/geobench_v2/datasets/forestnet.py": "6038f3c7ba2203f1fa688e6ecef6212c98a9636a1239c58cf24c137c048d5767",
+    "reproduction/repo/geobench_v2/datasets/fotw.py": "94996ba3a9be42abfd9492f0237f5909b8dcbbce441497a44dae3f17841c386b",
+    "reproduction/repo/geobench_v2/datasets/kuro_siwo.py": "18583f750490cb37d8228d00170c6d3b0bf103b8ab815e7440b3a556488f3521",
+    "reproduction/repo/geobench_v2/datasets/normalization.py": "dba61e64934f66aaa7fe601300b750d2b04aedbcedf878266f69c7826fe42fbd",
+    "reproduction/repo/geobench_v2/datasets/nzcattle.py": "4b22f1f8880144a7ba7f07c298963be2991840865127b202ca05b18f9da7c7a8",
+    "reproduction/repo/geobench_v2/datasets/pastis.py": "4ea2209469d1d75e28c5a6c8ea90318fc8d9c16a00c4c1d373aff573b2173f3e",
+    "reproduction/repo/geobench_v2/datasets/sensor_util.py": "838f53c30a8f99211766b3ed893c11fa54eb4b7b7bc4768b02a906ac4620183a",
+    "reproduction/repo/geobench_v2/datasets/so2sat.py": "afef7523df74ec770d86628803df16f1238169b701a7db348358420a2e673a17",
+    "reproduction/repo/geobench_v2/datasets/spacenet2.py": "48cddec4b3f39bc075ac88a4989d53c843bdf4abaef0adf7a8383c78df772fcd",
+    "reproduction/repo/geobench_v2/datasets/spacenet6.py": "190fa240123498f7fe46dd583a97179c5edde1530dce0dc6eaefd1916e52e09f",
+    "reproduction/repo/geobench_v2/datasets/spacenet7.py": "95a3e54e03b4416e847f8485c91125cec97faa8179958c9ffb6f7407bd8a1561",
+    "reproduction/repo/geobench_v2/datasets/spacenet8.py": "850d780ddd95e6dd916c4e3ee56ac4fff9c04d725b1d92ceb576bedf0d9b16f8",
+    "reproduction/repo/geobench_v2/datasets/substation.py": "3d86b14777e100b43639bcb24a5746820356e8b45d3f6c15027664d331e3f1ac",
+    "reproduction/repo/geobench_v2/datasets/treesatai.py": "61e54b2e5bf97bf1920aee03af947507361e6343d59bf438af4b0956d7c090ef",
+    "reproduction/repo/geobench_v2/datasets/visualization_util.py": "690bfa1b30f8078759050ed41e89cd947afd69f59e4ec2ec527aae991cac3af8",
+    "reproduction/repo/train_pastis.py": "907b5b385e1dfd4ab0f177b4436e86443f969e87d17b98c53563c983b423006f",
+    "reproduction/report.json": "d0e0d7d3079690ba9a48dc5658a89c4d83d6c196632add6b15d1de860029784c",
+    "task.md": "9e300931e9667ae84aca979e0521d0e77cfb140f4a6ca90aeae121731d1a5f2d"
+  },
+  "judge_cli_version": "2.1.322",
+  "judge_stage_timeout_sec": 21600,
+  "validation_status": "packaged; GPU baseline and real evaluator not yet run"
+}

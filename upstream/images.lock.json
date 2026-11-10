@@ -1,0 +1,107 @@
+{
+  "ATAT": {
+    "image": "ghcr.io/maszhongming/agent4sci-atat@sha256:691be4ed70b5735cc6c62f15c3124d87333ae97bb4a189a0698a02567e40cfe2",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-atat:latest",
+    "compressed_bytes": 9240515895
+  },
+  "CarbonGlobe": {
+    "image": "ghcr.io/maszhongming/agent4sci-carbonglobe@sha256:2aa02bc4892795b54beb686525e07be4901078e01d3f2b48fd80496a30724367",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-carbonglobe:latest",
+    "compressed_bytes": 5366521149
+  },
+  "CheMixHub": {
+    "image": "ghcr.io/maszhongming/agent4sci-chemixhub@sha256:fe2ce412dfe8831b892fe8d6c916848a657cc4f3693d13385b3fb0a50dd93f55",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-chemixhub:latest",
+    "compressed_bytes": 9161398393
+  },
+  "CosmoBench": {
+    "image": "ghcr.io/maszhongming/agent4sci-cosmobench@sha256:000018bd03db0919ee3e95ff98d6d3e112cdc092d13fc253a7ec1e34ff4a058d",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-cosmobench:latest",
+    "compressed_bytes": 7804386549
+  },
+  "DART-Eval": {
+    "image": "ghcr.io/maszhongming/agent4sci-dart-eval@sha256:747c723fb7468fbaab1f1b1fc4bdd3f92b30792c22320eac2e987ef377902439",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-dart-eval:latest",
+    "compressed_bytes": 8969181480
+  },
+  "ESCAPE": {
+    "image": "ghcr.io/maszhongming/agent4sci-escape@sha256:dc9569a103e5793735335138f99d17a1f994cec78549f9768acd71bcc9773979",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-escape:latest",
+    "compressed_bytes": 9452919573
+  },
+  "GEO-Bench-2": {
+    "image": "ghcr.io/maszhongming/agent4sci-geo-bench-2@sha256:f97191e767499b9ac6e4846d6a6ebcb5baf9526ed0329d40bd8fe9ce5866d5d5",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-geo-bench-2:latest",
+    "compressed_bytes": 9330305452
+  },
+  "GTPBD": {
+    "image": "ghcr.io/maszhongming/agent4sci-gtpbd@sha256:5cef891acbc51a00db027a5879d6308cda9af9c89c870d9f8faad0a194c5ef53",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-gtpbd:latest",
+    "compressed_bytes": 9037075671
+  },
+  "LITHOS": {
+    "image": "ghcr.io/maszhongming/agent4sci-lithos@sha256:3710a8a165956feb1a9ab3202e4406d0f4490553171bff0842138c91fb2dc07b",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-lithos:latest",
+    "compressed_bytes": 7774542380
+  },
+  "Mars-Bench": {
+    "image": "ghcr.io/maszhongming/agent4sci-mars-bench@sha256:e2d6357b3e1f01c567091b6a0fca1500e14b81d11e34255790fecb23a3c82737",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-mars-bench:latest",
+    "compressed_bytes": 9144603250
+  },
+  "MassSpecGym": {
+    "image": "ghcr.io/maszhongming/agent4sci-massspecgym@sha256:afa24e47f5e92c8b1da42a4ce09ceaec5f4d5f00164f33ab56812f47a243a099",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-massspecgym:latest",
+    "compressed_bytes": 9233638676
+  },
+  "MOTIVE": {
+    "image": "ghcr.io/maszhongming/agent4sci-motive@sha256:8b66346ddc0976f2eb2639ba0f790b0954e265b03502f5cbe59ea6d127533d79",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-motive:latest",
+    "compressed_bytes": 7851079435
+  },
+  "NeuroGraph": {
+    "image": "ghcr.io/maszhongming/agent4sci-neurograph@sha256:64d547eabfe9b454b53f1709ea06fc4d2f2d2ec39be002a78911631ed92f271c",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-neurograph:latest",
+    "compressed_bytes": 8917038104
+  },
+  "PFDelta": {
+    "image": "ghcr.io/maszhongming/agent4sci-pfdelta@sha256:9b36ce7715703470cd235d1c1b852dfa4c8ecb837a0ce01aadf15e077b1552a4",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-pfdelta:latest",
+    "compressed_bytes": 8892143444
+  },
+  "PFDelta_2000": {
+    "image": "ghcr.io/maszhongming/agent4sci-pfdelta_2000@sha256:b4b4df1a8e03825d1cd9d1e1712d03bdebc75a8cb15f38a21d94ca07d13bd397",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-pfdelta_2000:latest",
+    "compressed_bytes": 8893230519
+  },
+  "ProteinGym": {
+    "image": "ghcr.io/maszhongming/agent4sci-proteingym@sha256:e26305539be83948826900982227170e75c8cd21385d7242d13dd7d0cac918a6",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-proteingym:latest",
+    "compressed_bytes": 8906342592
+  },
+  "SR-CACO-2": {
+    "image": "ghcr.io/maszhongming/agent4sci-sr-caco-2@sha256:47ecc2be0c1fc0ceb8b1645078337796aeaa74998cfc983501667c37043f26ad",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-sr-caco-2:latest",
+    "compressed_bytes": 9051393585
+  },
+  "TIDMAD": {
+    "image": "ghcr.io/maszhongming/agent4sci-tidmad@sha256:4aaca5ff2a9a734d0859fe59b445c86fc775e6ce868d7b603692a8d31ab4c5a8",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-tidmad:latest",
+    "compressed_bytes": 8861022374
+  },
+  "TreeFinder": {
+    "image": "ghcr.io/maszhongming/agent4sci-treefinder@sha256:fe6cef0ef92df70ff9ac75338f7161b3f596c0639fe05dfc57fe0cc475567d30",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-treefinder:latest",
+    "compressed_bytes": 7767925548
+  },
+  "UniSite": {
+    "image": "ghcr.io/maszhongming/agent4sci-unisite@sha256:737aa1c09bcc41f8772e0cafb367ea6c011ac6ede094364ca5d5c88b96dd8c5c",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-unisite:latest",
+    "compressed_bytes": 7905733416
+  },
+  "gRNAde": {
+    "image": "ghcr.io/maszhongming/agent4sci-grnade@sha256:7ea16dead2b7ab59330eb622d22c5ad3dc81a4555e41cd96699329e745882724",
+    "upstream_tag": "ghcr.io/maszhongming/agent4sci-grnade:latest",
+    "compressed_bytes": 8969001016
+  }
+}

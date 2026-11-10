@@ -1,0 +1,77 @@
+{
+  "id": "agent4sci-escape-amp",
+  "title": "ESCAPE: antimicrobial-peptide classification",
+  "project": "ESCAPE",
+  "data_task": "amp_classification",
+  "domain": "Bioengineering",
+  "track": "suite",
+  "image": "ghcr.io/maszhongming/agent4sci-escape@sha256:dc9569a103e5793735335138f99d17a1f994cec78549f9768acd71bcc9773979",
+  "upstream_revision": "74b0e8c4dc55610072bed4326b6bfac24dc77377",
+  "dataset": {
+    "repo": "MingZhong/agent4sci",
+    "revision": "96befc0fb951a312b224af2a33767649d9069a55"
+  },
+  "data_files": {
+    "train": [
+      "ESCAPE/amp_classification/train/fold_0/data.csv",
+      "ESCAPE/amp_classification/train/fold_0/struct_maps.npz",
+      "ESCAPE/amp_classification/train/fold_1/data.csv",
+      "ESCAPE/amp_classification/train/fold_1/struct_maps.npz"
+    ],
+    "val": [
+      "ESCAPE/amp_classification/val/fold_0/data.csv",
+      "ESCAPE/amp_classification/val/fold_0/struct_maps.npz",
+      "ESCAPE/amp_classification/val/fold_1/data.csv",
+      "ESCAPE/amp_classification/val/fold_1/struct_maps.npz"
+    ],
+    "test": [
+      "ESCAPE/amp_classification/test/data.csv",
+      "ESCAPE/amp_classification/test/struct_maps.npz"
+    ]
+  },
+  "metric": {
+    "name": "overall_map",
+    "unit": "percent",
+    "direction": "maximize",
+    "range": [
+      0,
+      100
+    ]
+  },
+  "baseline": {
+    "paper": 72.1,
+    "reproduction": 71.8,
+    "source": "digest-pinned upstream image /opt/project/task.md",
+    "newly_reproduced": false
+  },
+  "components": [
+    "seed_42",
+    "seed_1665",
+    "seed_8914"
+  ],
+  "aggregation": "mean",
+  "protocol": "Three seeds 42,1665,8914; two-fold ensemble per seed (six training runs total). Overall mAP across the five labels in percent.",
+  "reference_sha256": {
+    "repo/ESCAPE.yml": "84e5cc4ec324c04422535f4a7a65847ac2a4469cfade2b87c260a05a276d1307",
+    "repo/README.md": "4a496cecd2803c69122e05e44225f243d22478f7a6f1fad84c13d5af51230950",
+    "repo/src/args.py": "d0b18027c6c12cbec6e4034a8d2bc830b3120b168db1f8c039f3525d79bbc9f8",
+    "repo/src/dataset.py": "4eca6c1e26c09a4329f644e5714ac841a06375cb146a19da7fa8f052058c32ba",
+    "repo/src/ensemble.sh": "e8b6ebf81d35542cbf70c572f000a73d72502e326a3c6152a7a4c9336b01bcd2",
+    "repo/src/main.py": "3b2fae99a73ad6841edb96aff6b29d5b27d19aa9508c2100c78588bca34cde62",
+    "repo/src/models.py": "2ca115102e17d2cb13b0af4b52221e80184223cc4ad57817ef0acbb38ac53be5",
+    "repo/src/test_ESCAPE.py": "4dcd10ee3375f3a312fbeae112fe8bec723d3e5c9bc6072655278c46a8a40778",
+    "repo/src/train.sh": "691df7a9a026a758172638c82485d8a09039071e131b2f087dc88434934ab2ad",
+    "reproduction/CHANGES.md": "be3141553163a8955828cd026906380217d7f054820458c244cc469f3890efba",
+    "reproduction/repo/src/args.py": "238b2ce08160389ea5d6c46d594d40d59540380eeb88334c56859b3436780120",
+    "reproduction/repo/src/dataset.py": "5d0998237df3d24d4506c17e69f07fa6f0aec50a91edd906cea4ed27a2a0631d",
+    "reproduction/repo/src/eval_test.py": "b53a5c972885f4fd73a90b606e42b8fdfd95629c17a48f5894a42d14089b2dd3",
+    "reproduction/repo/src/eval_val.py": "d23d69c7a7c434758f406688f144b9106fc9ec5f109532315a5a8d1b7250a8dc",
+    "reproduction/repo/src/main.py": "1295eadd8081d2801db9251e0190e81136ddcb28d07b23d784536d8f2756d3d7",
+    "reproduction/repo/src/models.py": "2ca115102e17d2cb13b0af4b52221e80184223cc4ad57817ef0acbb38ac53be5",
+    "reproduction/report.json": "325a6e37822ca548318fbae93fb10438311f12f41be8f4f891cde6c88cdfd279",
+    "task.md": "1e9bc632f4842c279ad23ff0f3e84ce503cf03aeca403d92f588434eed0daa2a"
+  },
+  "judge_cli_version": "2.1.322",
+  "judge_stage_timeout_sec": 21600,
+  "validation_status": "packaged; GPU baseline and real evaluator not yet run"
+}
