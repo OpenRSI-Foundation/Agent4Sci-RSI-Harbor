@@ -167,7 +167,7 @@ def collection_readme(catalog: dict, commit: str) -> bytes:
                         f'`{t["project"]}/{t["data_task"]}` | {metric["name"]} / {metric["unit"]} | '
                         f'{metric["direction"]} | {t["baseline"]["reproduction"]} | {t["track"]} |')
         rows.append('')
-    return ('\n'.join(rows) + '\n').encode()
+    return ('\n'.join(rows).rstrip() + '\n').encode()
 
 
 def payload(revision: str) -> dict[str, tuple[bytes, str]]:
