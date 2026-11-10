@@ -2,7 +2,9 @@
 
 All manifests are generated from [`catalog.json`](../catalog.json) by
 `python3 tools/generate.py`. Each nonempty line is one task directory relative
-to the repository root. Every listed task is a standalone Harbor 1.4 package.
+to the repository root. Every listed task lives under this repository's
+`rsi-tasks/` and is a standalone RSI package in Harbor 1.4 format, run with
+OpenRSI-Index's `rsi-harness`.
 
 | Manifest | Contents |
 |---|---|

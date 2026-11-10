@@ -1,5 +1,5 @@
-tasks/agent4sci-escape-amp
-tasks/agent4sci-motive-cold-source
-tasks/agent4sci-proteingym-fitness
-tasks/agent4sci-unisite-binding-sites
-tasks/agent4sci-grnade-rna-design
+rsi-tasks/agent4sci-escape-amp
+rsi-tasks/agent4sci-motive-cold-source
+rsi-tasks/agent4sci-proteingym-fitness
+rsi-tasks/agent4sci-unisite-binding-sites
+rsi-tasks/agent4sci-grnade-rna-design

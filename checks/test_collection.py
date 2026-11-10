@@ -22,7 +22,7 @@ class CollectionTests(unittest.TestCase):
         self.assertEqual(cases[0]['project'],'PFDelta_2000')
         self.assertEqual(len(collection.select(tasks,domain='chemistry')),4)
         self.assertEqual(len(collection.select(tasks,project='CheMixHub')),3)
-        expected={f'tasks/{t["id"]}' for t in tasks}
+        expected={f'rsi-tasks/{t["id"]}' for t in tasks}
         domain_paths=[]
         for path in (ROOT/'collections/domains').glob('*.txt'):
             domain_paths.extend(path.read_text().splitlines())
@@ -30,7 +30,7 @@ class CollectionTests(unittest.TestCase):
         self.assertEqual(set(domain_paths),expected)
         for name,group in [('all',tasks),('suite',suite),('case-study',cases)]:
             self.assertEqual((ROOT/f'collections/{name}.txt').read_text().splitlines(),
-                             [f'tasks/{t["id"]}' for t in group])
+                             [f'rsi-tasks/{t["id"]}' for t in group])
 
     def test_unknown_filters_and_tasks_fail_instead_of_selecting_everything(self):
         tasks=collection.catalog()
@@ -51,6 +51,8 @@ class CollectionTests(unittest.TestCase):
         self.assertIn('model; echo bad',command)
         self.assertIn('/tmp/log path',command)
         self.assertTrue(Path(command[2]).is_absolute())
+        self.assertEqual(Path(command[2]), ROOT/'rsi-tasks'/task['id'])
+        self.assertTrue((Path(command[2])/'task.toml').is_file())
         for gpus in ('0','0,1,2,3,4,5,6,6','0,1,2,3,4,5,6,'):
             args.gpus=gpus
             with self.assertRaises(ValueError):collection.run_command(task,args)

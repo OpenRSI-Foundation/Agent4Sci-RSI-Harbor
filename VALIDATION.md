@@ -23,7 +23,7 @@ Initial port prepared on 2026-11-10. Upstream Git:
 The initial local compiler check used OpenRSI-Index
 `d98049f0a968e4e7258293b6e55cd0aaa93eb0c4`. CI independently installs the public
 revision `8d170deed4591fc7e4306f2d86ff4d9bcffd1288` and Harbor 0.21.0.
-See the repository's **Validate Harbor collection** workflow for its current
+See the repository's **Validate RSI task collection** workflow for its current
 commit-specific result. The local scientific Docker runtime was unavailable;
 VISION was in scheduled maintenance. No GPU resources or scientific jobs were
 started. These limitations are not substitutes for the pending runtime checks.
@@ -57,3 +57,22 @@ host-captured trajectory and verifies its manifest, sizes and SHA-256 digests.
 The container test is not a full RSI Work/snapshot/Judge launch, a scientific
 image build, a GPU baseline reproduction, a real model evaluation/audit, or a
 native Harbor run. Those checks remain pending as recorded above.
+
+## RSI task organization, 2026-11-10
+
+Version 1.0.2 explicitly follows OpenRSI-Index's `rsi/<task>` naming, Harbor 1.4
+task layout, `Science` category/domain metadata and `rsi-harness` execution entry
+point. All 26 complete task packages are maintained in
+**Agent4Sci-RSI-Harbor/rsi-tasks/**. `TASKS.md` and the suite/domain manifests link
+to those packages. Each includes its own README, LICENSE, NOTICE, instruction,
+environment, verifier and pinned scientific contract. OpenRSI-Index supplies
+the format specification and pinned runtime dependency; the tasks are hosted
+and maintained in this collection repository.
+
+All 26 generated tasks compile with the pinned Index RSI-Harness. The 26 CPU
+tests cover the adapter, read-only Judge protocol, manifest coverage, and launch
+paths/arguments. Generated-file checks validate names, Science/domain metadata,
+all copied runtime files, licenses and the absence of symlinks. The Linux
+`readonly-runtime` CI job continues to exercise all 26 contracts with synthetic
+fixtures. No scientific metric, data split, reward formula or final-submission
+cap changes in this release; GPU and live-model validation remain pending.

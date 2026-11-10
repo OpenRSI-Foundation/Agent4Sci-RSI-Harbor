@@ -29,7 +29,7 @@ def select(tasks: list[dict], *, track='all', domain=None, project=None) -> list
 def summary(spec: dict) -> dict:
     return {key: spec[key] for key in ('id', 'title', 'project', 'data_task', 'domain',
                                      'track', 'metric', 'baseline', 'validation_status')} | {
-        'path': f'tasks/{spec["id"]}',
+        'path': f'rsi-tasks/{spec["id"]}',
     }
 
 
@@ -45,7 +45,7 @@ def run_command(spec: dict, args: argparse.Namespace) -> list[str]:
     devices = [part.strip() for part in args.gpus.split(',')]
     if any(not part for part in devices) or len(set(devices)) != len(devices) or len(devices) < 8:
         raise ValueError('Supply at least 8 distinct GPU IDs for the published task allocation')
-    command = ['rsi-harness', 'run', str(ROOT / 'tasks' / spec['id']),
+    command = ['rsi-harness', 'run', str(ROOT / 'rsi-tasks' / spec['id']),
                '--agent', args.agent, '--agent-auth', 'local', '--gpus', ','.join(devices),
                '--primary-reward', 'reward', '--score-direction', 'maximize',
                '--max-submissions', '1']
@@ -84,7 +84,7 @@ def main(argv=None) -> int:
             if args.format == 'json':
                 print(json.dumps([summary(t) for t in selected], indent=2))
             elif args.format == 'paths':
-                print('\n'.join(f'tasks/{t["id"]}' for t in selected))
+                print('\n'.join(f'rsi-tasks/{t["id"]}' for t in selected))
             else:
                 print('ID\tDOMAIN\tTRACK\tNAME')
                 for t in selected:

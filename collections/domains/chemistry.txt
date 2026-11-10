@@ -1,4 +1,4 @@
-tasks/agent4sci-chemixhub-olfactory
-tasks/agent4sci-chemixhub-mon
-tasks/agent4sci-chemixhub-spe
-tasks/agent4sci-massspecgym-retrieval
+rsi-tasks/agent4sci-chemixhub-olfactory
+rsi-tasks/agent4sci-chemixhub-mon
+rsi-tasks/agent4sci-chemixhub-spe
+rsi-tasks/agent4sci-massspecgym-retrieval

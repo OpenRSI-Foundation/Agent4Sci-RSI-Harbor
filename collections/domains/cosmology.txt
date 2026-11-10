@@ -1,3 +1,3 @@
-tasks/agent4sci-cosmobench-tree-regression
-tasks/agent4sci-cosmobench-merger-nodes
-tasks/agent4sci-cosmobench-velocity
+rsi-tasks/agent4sci-cosmobench-tree-regression
+rsi-tasks/agent4sci-cosmobench-merger-nodes
+rsi-tasks/agent4sci-cosmobench-velocity
