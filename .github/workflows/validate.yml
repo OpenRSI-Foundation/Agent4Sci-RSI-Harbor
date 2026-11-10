@@ -17,3 +17,24 @@ jobs:
         run: python tools/check_collection.py --require-harness
       - name: Test verifier orchestration and failure handling (mocked model/data)
         run: python -m unittest discover -s checks -v
+  readonly-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the small CPU contract-test image (not a scientific image)
+        run: docker build -f checks/runtime/Dockerfile -t agent4sci-contract-test .
+      - name: Exercise all 26 contracts with read-only snapshots and real user switching
+        run: |
+          mkdir -p "$RUNNER_TEMP/agent4sci-runtime"
+          docker run --rm --network none \
+            --mount type=volume,destination=/workspace,readonly \
+            --mount type=volume,destination=/logs/agent,readonly \
+            --mount "type=bind,source=$RUNNER_TEMP/agent4sci-runtime,destination=/results" \
+            agent4sci-contract-test
+      - name: Retain synthetic runtime evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-runtime-evidence
+          path: ${{ runner.temp }}/agent4sci-runtime

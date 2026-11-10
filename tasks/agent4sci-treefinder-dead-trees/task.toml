@@ -2,7 +2,7 @@ schema_version = "1.4"
 
 [task]
 name = "rsi/agent4sci-treefinder-dead-trees"
-version = "1.0.0"
+version = "1.0.1"
 description = "TreeFinder: dead-tree segmentation"
 
 [metadata]
@@ -24,6 +24,8 @@ recommended_max_submissions = 1
 
 [metadata.rsi_harness.verifier]
 gpus = 8
+visibility = "hidden"
+clean_image = true
 
 [environment]
 os = "linux"

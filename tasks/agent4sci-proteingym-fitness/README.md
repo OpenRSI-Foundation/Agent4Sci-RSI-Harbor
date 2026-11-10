@@ -17,6 +17,17 @@ Harbor task: `agent4sci-proteingym-fitness` · Domain: Bioengineering · Track: 
 
 Kermut supervised DMS substitutions. Three CV schemes (random,modulo,contiguous), five folds each, For each assay and CV scheme, concatenate predictions from all five folds BEFORE computing Spearman; average assays within each scheme, then average the three schemes. Do not average per-fold correlations. All assays/folds must be covered; seed 2024.
 
+From the collection root, preview the launch command (no GPU job is started):
+
+```bash
+python3 tools/collection.py run agent4sci-proteingym-fitness --gpus 0,1,2,3,4,5,6,7
+```
+
+Append `--execute` to launch on a prepared Linux Docker host. This always uses
+`reward`, `maximize`, and one final held-out submission. Judge data and outputs
+are outside the read-only `/workspace` snapshot. See the collection README for
+credentials, dependencies and runtime validation status.
+
 See [instruction.md](instruction.md) for the full research/submission contract,
 [tests/spec.json](tests/spec.json) for pinned inputs and checksums, and the
 [collection README](../../README.md) for execution and trust boundaries.

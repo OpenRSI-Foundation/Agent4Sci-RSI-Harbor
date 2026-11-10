@@ -1,0 +1,3 @@
+tasks/agent4sci-pfdelta-ieee118
+tasks/agent4sci-pfdelta-goc2000
+tasks/agent4sci-tidmad-denoising

@@ -17,6 +17,17 @@ Harbor task: `agent4sci-pfdelta-goc2000` · Domain: Physics · Track: case-study
 
 GOC-2000 case study (outside the 25-task suite). Three seeds 11,22,33; equal mean over N,N-1,N-2,C2I conditions. Verify GNN-comparable latency against co-measured baseline on the SAME hardware/batch protocol; upstream references ~10-55 ms unbatched or ~1-3 ms batched. Report both timing and PBL. The IEEE-118 ML-only rule does NOT apply to this case study.
 
+From the collection root, preview the launch command (no GPU job is started):
+
+```bash
+python3 tools/collection.py run agent4sci-pfdelta-goc2000 --gpus 0,1,2,3,4,5,6,7
+```
+
+Append `--execute` to launch on a prepared Linux Docker host. This always uses
+`reward`, `maximize`, and one final held-out submission. Judge data and outputs
+are outside the read-only `/workspace` snapshot. See the collection README for
+credentials, dependencies and runtime validation status.
+
 See [instruction.md](instruction.md) for the full research/submission contract,
 [tests/spec.json](tests/spec.json) for pinned inputs and checksums, and the
 [collection README](../../README.md) for execution and trust boundaries.

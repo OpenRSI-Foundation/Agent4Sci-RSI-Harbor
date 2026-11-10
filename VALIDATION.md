@@ -33,3 +33,27 @@ credential boundaries under the selected runtime, reproduce its complete
 seed/fold baseline, exercise a valid candidate and failure cases through a real
 Judge, and compare the auditor's transcript with host-side research logs. Record
 hardware, image/data/source revisions, evaluator model/CLI and raw metrics.
+
+## Collection completion, 2026-11-10
+
+Package version 1.0.1 keeps the same 26 scientific contracts, upstream revisions,
+image digests and reported baselines. It fixes the verifier's attempted writes
+into RSI-Harness's read-only WORKDIR, stages held-out data in Judge scratch, and
+retains inference outputs separately. The reviewer and unprivileged inference
+process share only the writable output directory. Audit now prefers the complete
+host-captured trajectory and verifies its manifest, sizes and SHA-256 digests.
+
+- All 26 tasks compile with the pinned public RSI-Harness revision and Harbor
+  0.21.0; generated task packages, domain manifests and TASKS.md are consistent.
+- 26 CPU regression tests pass, including task filtering/launch argument safety,
+  all scoring contracts, separate Judge data staging, missing test/validation
+  handling and rejected tampered/incomplete host trajectories.
+- The `readonly-runtime` CI job exercises all 26 contracts with an actual
+  read-only Linux Docker workspace, separate reviewer/inference users and
+  credential scrubbing. Hub data and the model CLI are synthetic fixtures, and
+  the container has networking disabled. See the commit-specific workflow result
+  and its `synthetic-runtime-evidence` artifact for the runtime outcome.
+
+The container test is not a full RSI Work/snapshot/Judge launch, a scientific
+image build, a GPU baseline reproduction, a real model evaluation/audit, or a
+native Harbor run. Those checks remain pending as recorded above.

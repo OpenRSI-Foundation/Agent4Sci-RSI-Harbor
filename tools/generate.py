@@ -23,7 +23,11 @@ The upstream reference allocation is **8 H200 GPUs, 12 hours**. Work under
 preprocessing and inference improvements consistent with the scientific task.
 Read `/workspace/task.md`, `/workspace/paper/`, `/workspace/repo/` and
 `/workspace/reproduction/` first. Copy code into `runs/` to edit it; keep the
-reference code, paper and data unchanged. Install extra packages in a local venv.
+reference code, paper and data unchanged. Install extra packages in a venv under
+`/workspace/runs/` (for example `runs/.venv`); home/system changes do not reach
+the clean Judge. Loading code must accept explicit data and output paths: the
+Judge reads `/workspace` as a read-only snapshot, stages test data separately,
+and supplies a writable output directory. Do not hardcode test or output paths.
 The allocation is per task here: splitting a multi-task project changes its
 budget accounting relative to upstream's shared project run. Report that fact.
 
@@ -50,6 +54,9 @@ Create nonempty `runs/SUMMARY.md` (exact loading commands, checkpoint-to-compone
 mapping and validation selection), `runs/METHODOLOGY.md` (scientific reasoning,
 changes and evidence), and `runs/hillclimb_logs.jsonl` (the COMPLETE agent session
 transcript, including failed/reverted attempts). Do not summarize the transcript.
+RSI-Harness also supplies its frozen host trajectory at `/logs/agent` to the
+Judge; that is the primary audit record and may substitute for the copied log.
+Native Harbor requires the complete copied `hillclimb_logs.jsonl`.
 Make artifacts readable by the independent evaluator. Use `rsi-submit` **once**
 when final; in plain Harbor, finish your turn instead. Do not tune on final Judge
 feedback. The operator must enforce `--max-submissions 1` for upstream-comparable
@@ -72,7 +79,7 @@ Missing/failed evaluations produce no valid reward, never a fabricated score.
 
 [task]
 name = "rsi/{slug}"
-version = "1.0.0"
+version = "1.0.1"
 description = {json.dumps(spec['title'])}
 
 [metadata]
@@ -94,6 +101,8 @@ recommended_max_submissions = 1
 
 [metadata.rsi_harness.verifier]
 gpus = 8
+visibility = "hidden"
+clean_image = true
 
 [environment]
 os = "linux"
@@ -156,6 +165,17 @@ Harbor task: `{slug}` · Domain: {spec['domain']} · Track: {spec['track']}.
 
 {spec['protocol']}
 
+From the collection root, preview the launch command (no GPU job is started):
+
+```bash
+python3 tools/collection.py run {slug} --gpus 0,1,2,3,4,5,6,7
+```
+
+Append `--execute` to launch on a prepared Linux Docker host. This always uses
+`reward`, `maximize`, and one final held-out submission. Judge data and outputs
+are outside the read-only `/workspace` snapshot. See the collection README for
+credentials, dependencies and runtime validation status.
+
 See [instruction.md](instruction.md) for the full research/submission contract,
 [tests/spec.json](tests/spec.json) for pinned inputs and checksums, and the
 [collection README](../../README.md) for execution and trust boundaries.
@@ -172,10 +192,48 @@ Dataset: `MingZhong/agent4sci@{spec['dataset']['revision']}`.
                'tests/test.sh':b'#!/bin/bash\nset -euo pipefail\ncd /workspace\nexec /usr/bin/python3 -I /tests/verifier.py\n',
                'tests/evaluation.md':(project / 'evaluation.md').read_bytes()}
     for role, names in {'environment':['bootstrap.py','data.py','candidate_exec.py'],
-                        'tests':['verifier.py','data.py','scoring.py']}.items():
+                        'tests':['verifier.py','data.py','scoring.py','trajectory.py']}.items():
         payload[f'{role}/spec.json'] = (json.dumps(spec,indent=2)+'\n').encode()
         for name in names:
             payload[f'{role}/{name}'] = (ROOT / 'adapter' / name).read_bytes()
+    return payload
+
+
+def collection_files(catalog):
+    tasks = catalog['tasks']
+    groups = {'all': tasks, 'suite': [t for t in tasks if t['track'] == 'suite'],
+              'case-study': [t for t in tasks if t['track'] == 'case-study']}
+    domains = sorted({t['domain'] for t in tasks})
+    for domain in domains:
+        groups[f'domains/{domain.lower()}'] = [t for t in tasks if t['domain'] == domain]
+    payload = {f'collections/{key}.txt': ('\n'.join(f'tasks/{t["id"]}' for t in group) + '\n').encode()
+               for key, group in groups.items()}
+    rows = ['# Complete task catalog', '',
+            '25 suite tasks plus the separately marked PFDelta-2000 case study. '
+            'Baselines are upstream reports, not new measurements. Every task has '
+            'an independent Harbor 1.4 package, a readable name and its own fixed protocol.', '',
+            'Generated from [catalog.json](catalog.json). '
+            'Use [collections/](collections/) for plain-text manifests or '
+            '`python3 tools/collection.py list --domain Chemistry` to filter tasks.', '',
+            '| Domain | Suite | Case study | Manifest |', '|---|---:|---:|---|']
+    for domain in domains:
+        group = groups[f'domains/{domain.lower()}']
+        rows.append(f'| [{domain}](#{domain.lower()}) | '
+                    f'{sum(t["track"] == "suite" for t in group)} | '
+                    f'{sum(t["track"] == "case-study" for t in group)} | '
+                    f'[paths](collections/domains/{domain.lower()}.txt) |')
+    for domain in domains:
+        rows.extend(['', f'## {domain}', '',
+                     '| Task and directory | Upstream subtask | Metric / units | Direction | Paper | Reproduction |',
+                     '|---|---|---|---|---|---|'])
+        for t in groups[f'domains/{domain.lower()}']:
+            metric = t['metric']
+            case = ' **[case study]**' if t['track'] == 'case-study' else ''
+            paper = t['baseline']['paper'] if t['baseline']['paper'] is not None else '—'
+            rows.append(f'| [{t["title"]}{case}](tasks/{t["id"]}/) · `{t["id"]}` | '
+                        f'`{t["project"]}/{t["data_task"]}` | {metric["name"]} / {metric["unit"]} | '
+                        f'{metric["direction"]} | {paper} | {t["baseline"]["reproduction"]} |')
+    payload['TASKS.md'] = ('\n'.join(rows) + '\n').encode()
     return payload
 
 
@@ -185,17 +243,19 @@ def main():
     args = parser.parse_args()
     catalog = json.loads((ROOT / 'catalog.json').read_text())
     stale = []
+    payload = collection_files(catalog)
     for spec in catalog['tasks']:
-        folder = ROOT / 'tasks' / spec['id']
         for name, contents in files(spec).items():
-            path = folder / name
-            if args.check:
-                if not path.exists() or path.read_bytes() != contents:
-                    stale.append(str(path.relative_to(ROOT)))
-            else:
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_bytes(contents)
-                path.chmod(0o755 if name.endswith('.sh') else 0o644)
+            payload[f'tasks/{spec["id"]}/{name}'] = contents
+    for name, contents in payload.items():
+        path = ROOT / name
+        if args.check:
+            if not path.exists() or path.read_bytes() != contents:
+                stale.append(str(path.relative_to(ROOT)))
+        else:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(contents)
+            path.chmod(0o755 if name.endswith('.sh') else 0o644)
     if stale:
         raise SystemExit('Stale generated files:\n'+'\n'.join(stale))
     print(f'{"Checked" if args.check else "Generated"} {len(catalog["tasks"])} standalone Harbor tasks')

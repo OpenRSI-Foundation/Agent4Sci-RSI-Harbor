@@ -17,6 +17,17 @@ Harbor task: `agent4sci-pfdelta-ieee118` · Domain: Physics · Track: suite.
 
 IEEE-118 full-topology training. Three seeds 11,22,33; within each seed equally average N, N-1, N-2 and close-to-infeasible conditions. ML-only inference; no Newton-Raphson or other iterative solvers.
 
+From the collection root, preview the launch command (no GPU job is started):
+
+```bash
+python3 tools/collection.py run agent4sci-pfdelta-ieee118 --gpus 0,1,2,3,4,5,6,7
+```
+
+Append `--execute` to launch on a prepared Linux Docker host. This always uses
+`reward`, `maximize`, and one final held-out submission. Judge data and outputs
+are outside the read-only `/workspace` snapshot. See the collection README for
+credentials, dependencies and runtime validation status.
+
 See [instruction.md](instruction.md) for the full research/submission contract,
 [tests/spec.json](tests/spec.json) for pinned inputs and checksums, and the
 [collection README](../../README.md) for execution and trust boundaries.

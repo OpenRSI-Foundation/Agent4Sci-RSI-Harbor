@@ -4,6 +4,7 @@ import ast
 import json
 import re
 import subprocess
+import sys
 import tomllib
 from pathlib import Path
 
@@ -37,13 +38,15 @@ def main():
         assert config['verifier']['environment_mode'] == 'shared'
         assert config['environment']['gpus'] == 8
         assert config['metadata']['agent4sci']['recommended_max_submissions'] == 1
+        assert config['metadata']['rsi_harness']['verifier']['clean_image'] is True
+        assert config['metadata']['rsi_harness']['verifier']['visibility'] == 'hidden'
         for role in ('environment','tests'):
             assert json.loads((folder / role / 'spec.json').read_text()) == spec
         subprocess.run(['bash','-n',str(folder / 'tests/test.sh')],check=True)
         for file in folder.rglob('*.py'):
             ast.parse(file.read_text(),filename=str(file))
         assert not any(p.name in {'doc','docs'} for p in folder.rglob('*'))
-    subprocess.run(['python3',str(ROOT / 'tools/generate.py'),'--check'],check=True)
+    subprocess.run([sys.executable,str(ROOT / 'tools/generate.py'),'--check'],check=True)
     print('Coverage: 25 suite tasks + 1 case study; all 21 registered images, 11 domains')
     if args.require_harness:
         from rsi_harness.task.compiler import HarborTaskCompiler

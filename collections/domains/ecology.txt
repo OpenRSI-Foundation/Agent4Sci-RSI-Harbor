@@ -1,0 +1,2 @@
+tasks/agent4sci-carbonglobe-carbon
+tasks/agent4sci-treefinder-dead-trees

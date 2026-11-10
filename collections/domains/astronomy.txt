@@ -1,0 +1,3 @@
+tasks/agent4sci-atat-transient
+tasks/agent4sci-mars-terrain
+tasks/agent4sci-mars-cones

@@ -24,6 +24,24 @@ See **[TASKS.md](TASKS.md)** for all 26 names, upstream mappings, metrics, units
 directions and baselines. Each row links to a task README and its full contract.
 [catalog.json](catalog.json) is the machine-readable source of truth.
 
+任务按 **11 个领域**整理；[正式套件](collections/suite.txt)含 25 个任务，
+[案例研究](collections/case-study.txt)单列 PFDelta-2000，
+[完整合集](collections/all.txt)含全部 26 个。每个清单一行一个仓库相对路径。
+所有索引由同一份 catalog 自动生成，避免漏项或名称不一致。
+
+```bash
+python3 tools/collection.py list
+python3 tools/collection.py list --track suite --domain Chemistry
+python3 tools/collection.py list --project CosmoBench --format json
+python3 tools/collection.py list --track case-study --format paths
+python3 tools/collection.py show pfdelta-ieee118
+```
+
+The [collection manifests](collections/) and task table are generated together
+with the standalone packages. `list` supports domain, upstream project and track
+filters; `show` prints the full pinned task contract. These commands need only
+Python 3.10+ and do not download data or allocate GPUs.
+
 Each directory is standalone (no symlink or import to a neighboring task):
 
 ```text
@@ -42,6 +60,7 @@ tasks/agent4sci-pfdelta-ieee118/
     ├── test.sh                # Harbor/RSI verifier entry point
     ├── verifier.py            # independent evaluation, then audit
     ├── scoring.py
+    ├── trajectory.py         # checks the frozen host trajectory when supplied
     ├── data.py
     ├── evaluation.md
     └── spec.json
@@ -108,7 +127,16 @@ train/val files from the pinned public Hub revision; test files are downloaded
 only inside the fresh Judge. Large datasets can make the first build expensive.
 Models additionally required by a training recipe may need downloads during Work.
 
-Install RSI-Harness from OpenRSI-Index, then clone this collection. Supply research
+Install the validated RSI-Harness revision from OpenRSI-Index, then clone this
+collection (Python 3.12 for installation/validation):
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+python3 -m pip install 'git+https://github.com/OpenRSI-Foundation/OpenRSI-Index.git@8d170deed4591fc7e4306f2d86ff4d9bcffd1288#subdirectory=RSI-Harness'
+```
+
+Supply research
 agent authentication through the harness's documented auth mechanism. Separately,
 provide `ANTHROPIC_API_KEY` and `AGENT4SCI_JUDGE_MODEL` in the operator's environment;
 they are templated into **verifier.env only**, never written into task files.
@@ -123,12 +151,27 @@ cd Agent4Sci-RSI-Harbor
 # Set ANTHROPIC_API_KEY privately; do not commit credentials.
 export AGENT4SCI_JUDGE_MODEL='claude-opus-4-8[1m]'
 
-rsi-harness run "$PWD/tasks/agent4sci-pfdelta-ieee118" \
-  --agent codex --agent-auth local \
-  --gpus 0,1,2,3,4,5,6,7 \
-  --primary-reward reward --score-direction maximize \
-  --max-submissions 1
+# Print the exact command first; this does not launch a job.
+python3 tools/collection.py run pfdelta-ieee118 --gpus 0,1,2,3,4,5,6,7
+
+# Execute one task on the prepared host.
+python3 tools/collection.py run pfdelta-ieee118 \
+  --gpus 0,1,2,3,4,5,6,7 --agent codex --execute
 ```
+
+The launcher fixes `--primary-reward reward --score-direction maximize
+--max-submissions 1`, validates the GPU pool, and checks verifier credentials
+before execution. It supports `--model`, `--logs-root` and `--data-root`; credentials
+are inherited privately and never inserted into the printed command. It launches
+only the selected task. Manifests do not automatically schedule the whole suite.
+
+In the Judge, `/workspace` is a **read-only snapshot**. Held-out data is staged
+in a separate temporary data tree, with links to the snapshot's train/val splits.
+The evaluator receives explicit data paths and writes retained inference evidence
+to `/logs/verifier/candidate_outputs/`. Loading adapters must support these path
+arguments instead of hardcoding `/workspace/data/<task>/test` or writing into
+`/workspace/runs`. Any added Python environment must be under `/workspace/runs/`
+to survive a clean Judge; packages installed only into the Work home do not.
 
 This command is for the harness's Docker backend. On a managed cluster, use only
 a site backend that has validated snapshotting, Judge isolation, networking and
@@ -152,16 +195,21 @@ Harbor task model and RSI compiler; it does not claim a live native Harbor run.
 - The original public-network research capability is retained. Since the source
   test dataset is public, filesystem separation is **not a network access control**;
   prohibited test downloads remain an audit rule, as in the upstream protocol.
-- Reference assets are read-only to Work. The upstream passwordless-sudo grant
-  is removed. Evaluators start with separate fresh homes and bare CLI mode, away
+- Reference assets are built without write permission and checked against pinned
+  hashes. RSI-Harness currently runs Work with root authority even when `agent.user`
+  names a non-root user, so these permissions are not an access-control boundary.
+  The upstream passwordless-sudo grant is removed. Evaluators start with separate fresh homes and bare CLI mode, away
   from candidate hooks/configuration. A credential-scrubbing helper executes
   candidate inference as the unprivileged research user.
 - This is a scientific-integrity workflow, **not a hardened adversarial-code
   sandbox**. Evaluator and auditor judgments remain model-dependent; a CLEAN audit
   is not proof. The evaluator must use the provided helper when executing candidate
   code. Its compliance is a trust assumption, not a kernel-enforced tool policy.
-  The submitted trajectory is agent-provided, as upstream; retain the harness's
-  host-side trajectory for independent reconciliation before publishing results.
+  RSI's frozen `/logs/agent` trajectory is the primary audit evidence: the verifier
+  checks its manifest, file sizes and SHA-256 digests and refuses truncated or
+  incomplete captures. Candidate logs cannot override this record. Native Harbor
+  falls back to the upstream candidate-provided transcript, marked explicitly in
+  provenance; it is not host-authenticated evidence.
 - Preserve the entire private `/logs/verifier/` directory: evaluation/audit streams,
   structured reports, prompts, errors and provenance are the assessment evidence.
   Review them before making scientific claims. Do not feed held-out evidence back
@@ -179,7 +227,13 @@ python3 -m unittest discover -s checks -v
 ```
 
 CI installs RSI-Harness from a fixed OpenRSI-Index commit, compiles every task and
-runs CPU regression tests. Tests cover every task's metric direction, exact
+runs CPU regression tests. A second CI job mounts a synthetic workspace and host
+trajectory read-only in Linux Docker and exercises all 26 contracts through real
+evaluator subprocesses and the real candidate UID/credential-scrubbing helper.
+Its Hub and model CLI are fixtures; networking is disabled. Evidence is uploaded
+as `synthetic-runtime-evidence`. This checks filesystem and process contracts,
+not scientific correctness or a live RSI snapshot lifecycle.
+Tests cover every task's metric direction, exact
 components, nonfinite/bad scores, failed audits, stale rewards, split scoping and
 mocked evaluator orchestration. They make no GPU, dataset or model-API calls.
 See [VALIDATION.md](VALIDATION.md) for the release evidence and remaining checks.
